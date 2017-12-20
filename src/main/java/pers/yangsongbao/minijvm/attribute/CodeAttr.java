@@ -72,7 +72,6 @@ public class CodeAttr extends AttributeInfo {
             logger.info("CodeAttr parse subAttrName: {}", subAttrName);
             //已经向前移动了U2, 现在退回去。
             iter.back(2);
-            //line item table
             if (AttributeInfo.LINE_NUM_TABLE.equalsIgnoreCase(subAttrName)) {
                 LineNumberTable lineNumberTable = LineNumberTable.parse(iter);
                 codeAttr.setLineNumberTable(lineNumberTable);
