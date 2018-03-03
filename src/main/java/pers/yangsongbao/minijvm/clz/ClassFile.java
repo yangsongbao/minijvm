@@ -2,31 +2,40 @@ package pers.yangsongbao.minijvm.clz;
 
 import pers.yangsongbao.minijvm.constant.ConstantPool;
 import pers.yangsongbao.minijvm.field.Field;
+import pers.yangsongbao.minijvm.interfaze.Interface;
 import pers.yangsongbao.minijvm.method.Method;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by songbao.yang on 2017/12/17.
+ *
+ * @author songbao.yang
+ * @date 2017/12/17
  */
 public class ClassFile {
 
     private int minorVersion;
     private int majorVersion;
 
+    private ConstantPool constantPool;
     private AccessFlag accessFlag;
     private ClassIndex classIndex;
-    private ConstantPool constantPool;
+    private List<Interface> interfaces = new ArrayList<>();
     private List<Field> fields = new ArrayList<Field>();
-    private List<Method> methods = new ArrayList<Method>();
+    private List<Method> methods = new ArrayList<>();
 
-    public void addField(Field f) {
-        fields.add(f);
+
+    public void addInterface(Interface anInterface) {
+        interfaces.add(anInterface);
     }
 
-    public void addMethod(Method m) {
-        methods.add(m);
+    public void addField(Field field) {
+        fields.add(field);
+    }
+
+    public void addMethod(Method method) {
+        methods.add(method);
     }
 
     public int getMinorVersion() {
@@ -67,6 +76,14 @@ public class ClassFile {
 
     public void setConstantPool(ConstantPool constantPool) {
         this.constantPool = constantPool;
+    }
+
+    public List<Interface> getInterfaces() {
+        return interfaces;
+    }
+
+    public void setInterfaces(List<Interface> interfaces) {
+        this.interfaces = interfaces;
     }
 
     public List<Field> getFields() {

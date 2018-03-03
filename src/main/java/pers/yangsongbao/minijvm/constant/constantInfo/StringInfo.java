@@ -1,4 +1,7 @@
-package pers.yangsongbao.minijvm.constant;
+package pers.yangsongbao.minijvm.constant.constantInfo;
+
+import pers.yangsongbao.minijvm.constant.ConstantInfo;
+import pers.yangsongbao.minijvm.constant.ConstantPool;
 
 public class StringInfo extends ConstantInfo {
     private int type = ConstantInfo.STRING_INFO;

@@ -1,4 +1,34 @@
-### 这是一个用java编写的mini jvm，用于学习
+### 这是一个用java编写的迷你版jvm，用于学习
+### 实现的功能
+1. 类文件的加载
+    1. 类文件的解析
+        - 魔数
+        - class文件的版本
+        - 常量池
+            - CONSTANT_Utf8_info（完成）
+            - CONSTANT_Integer_info（）
+            - CONSTANT_Float_info
+            - CONSTANT_Long_info
+            - CONSTANT_Double_info
+            - CONSTANT_Class_info
+            - CONSTANT_String_info
+            - CONSTANT_Fieldref_info
+            - CONSTANT_Methodref_info
+            - CONSTANT_InterfaceMethodref_info
+            - CONSTANT_NameAndType_info
+            - CONSTANT_MethodHandle_info
+            - CONSTANT_MethodType_info
+            - CONSTANT_InvokeDynamic_info
+        - 访问标志
+        - 类索引
+        - 父类索引
+        - 接口计数器和接口表
+        - 字段计数器和字段表
+        - 方法计数器和方发表
+        - 属性计数器和属性表
+        
+    2. classPath的管理
+2. 虚拟机字节码执行引擎
 ### 参考资料
 1. [Java虚拟机规范（JavaSE7）](https://files.cnblogs.com/files/zhuYears/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%A7%84%E8%8C%83%EF%BC%88JavaSE7%EF%BC%89.pdf)
 2. [《深入理解JAVA虚拟机》](https://book.douban.com/subject/24722612/)

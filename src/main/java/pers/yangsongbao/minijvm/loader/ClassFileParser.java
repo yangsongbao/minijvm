@@ -6,10 +6,13 @@ import pers.yangsongbao.minijvm.clz.AccessFlag;
 import pers.yangsongbao.minijvm.clz.ClassFile;
 import pers.yangsongbao.minijvm.clz.ClassIndex;
 import pers.yangsongbao.minijvm.constant.*;
+import pers.yangsongbao.minijvm.constant.constantInfo.*;
 import pers.yangsongbao.minijvm.field.Field;
+import pers.yangsongbao.minijvm.interfaze.Interface;
 import pers.yangsongbao.minijvm.method.Method;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  * @author songbao.yang
@@ -33,16 +36,11 @@ public class ClassFileParser {
         clzFile.setMinorVersion(iter.nextU2ToInt());
         clzFile.setMajorVersion(iter.nextU2ToInt());
 
-        ConstantPool pool = parseConstantPool(iter);
-        clzFile.setConstantPool(pool);
+        clzFile.setConstantPool(parseConstantPool(iter));
+        clzFile.setAccessFlag(parseAccessFlag(iter));
+        clzFile.setClassIndex(parseClassInfex(iter));
 
-        AccessFlag flag = parseAccessFlag(iter);
-        clzFile.setAccessFlag(flag);
-
-        ClassIndex clzIndex = parseClassInfex(iter);
-        clzFile.setClassIndex(clzIndex);
-
-        parseInterfaces(iter);
+        parseInterfaces(clzFile, iter);
         parseFileds(clzFile, iter);
         parseMethods(clzFile, iter);
 
@@ -53,30 +51,54 @@ public class ClassFileParser {
         int constPoolCount = iter.nextU2ToInt();
         ConstantPool pool = new ConstantPool();
 
-        //
+        /* 代表常量池容量计数值是从1而不是从0开始的
+        *  设计者将第0项常量空出来的目的在于满足后面某些指向常量池的索引值的数据
+        *  在特定情况下需要表达“不引用任何一个常量池项目”的含义
+        *  这种情况就可以把索引值置为0来表示。
+        *  见《深入理解java虚拟机》第2版第168页
+        * */
         pool.addConstantInfo(new NullConstantInfo());
         for (int i = 1; i <= constPoolCount - 1; i++) {
             int tag = iter.nextU1toInt();
             switch (tag) {
+                case ConstantInfo.UTF8_INFO:
+                    int len = iter.nextU2ToInt();
+                    byte[] data = iter.getBytes(len);
+                    String value = new String(data);
+                    Utf8Info utf8Str = new Utf8Info(pool);
+                    utf8Str.setLength(len);
+                    utf8Str.setValue(value);
+                    pool.addConstantInfo(utf8Str);
+                    break;
+                case ConstantInfo.INTEGER_INFO:
+                    byte[] integerBytes = iter.getBytes(4);
+                    Integer integerValue = ByteBuffer.wrap(integerBytes).order(ByteOrder.BIG_ENDIAN).getInt();
+                    IntegerInfo integerInfo = new IntegerInfo(pool, integerValue);
+                    pool.addConstantInfo(integerInfo);
+                    break;
+                case ConstantInfo.FLOAT_INFO:
+                    byte[] floatBytes = iter.getBytes(4);
+                    Float floatValue = ByteBuffer.wrap(floatBytes).order(ByteOrder.BIG_ENDIAN).getFloat();
+                    FloatInfo floatInfo = new FloatInfo(pool, floatValue);
+                    pool.addConstantInfo(floatInfo);
+                    break;
+                case ConstantInfo.LONG_INFO:
+                    byte[] longBytes = iter.getBytes(4);
+                    Long longValue = ByteBuffer.wrap(longBytes).order(ByteOrder.BIG_ENDIAN).getLong();
+                    LongInfo longInfo = new LongInfo(pool, longValue);
+                    pool.addConstantInfo(longInfo);
+                    break;
+                case ConstantInfo.DOUBLE_INFO:
+                    byte[] doubleBytes = iter.getBytes(4);
+                    Double doubleValue = ByteBuffer.wrap(doubleBytes).order(ByteOrder.BIG_ENDIAN).getDouble();
+                    DoubleInfo doubleInfo = new DoubleInfo(pool, doubleValue);
+                    pool.addConstantInfo(doubleInfo);
+                    break;
                 case ConstantInfo.CLASS_INFO:
                     int utf8Index = iter.nextU2ToInt();
                     ClassInfo clzInfo = new ClassInfo(pool);
                     clzInfo.setUtf8Index(utf8Index);
                     pool.addConstantInfo(clzInfo);
-                    break;
-                case ConstantInfo.UTF8_INFO:
-                    int len = iter.nextU2ToInt();
-                    byte[] data = iter.getBytes(len);
-                    String value = null;
-                    try {
-                        value = new String(data, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        logger.error("parse utf8_info error", e);
-                    }
-                    UTF8Info utf8Str = new UTF8Info(pool);
-                    utf8Str.setLength(len);
-                    utf8Str.setValue(value);
-                    pool.addConstantInfo(utf8Str);
                     break;
                 case ConstantInfo.STRING_INFO:
                     StringInfo info = new StringInfo(pool);
@@ -95,11 +117,34 @@ public class ClassFileParser {
                     method.setNameAndTypeIndex(iter.nextU2ToInt());
                     pool.addConstantInfo(method);
                     break;
+                case ConstantInfo.INTERFACEMETHODREF_INFO:
+                    InterfaceMethodrefInfo interfaceMethodrefInfo = new InterfaceMethodrefInfo(pool);
+                    interfaceMethodrefInfo.setClassInfoIndex(iter.nextU2ToInt());
+                    interfaceMethodrefInfo.setNameAndTypeIndex(iter.nextU2ToInt());
+                    pool.addConstantInfo(interfaceMethodrefInfo);
+                    break;
                 case ConstantInfo.NAME_AND_TYPE_INFO:
                     NameAndTypeInfo nameType = new NameAndTypeInfo(pool);
-                    nameType.setIndex1(iter.nextU2ToInt());
-                    nameType.setIndex2(iter.nextU2ToInt());
+                    nameType.setNameIndex(iter.nextU2ToInt());
+                    nameType.setDescriptorIndex(iter.nextU2ToInt());
                     pool.addConstantInfo(nameType);
+                    break;
+                case ConstantInfo.METHODHANDLE_INFO:
+                    MethodHandleInfo methodHandleInfo = new MethodHandleInfo(pool);
+                    methodHandleInfo.setReferenceKind(iter.nextU1toInt());
+                    methodHandleInfo.setReferenceIndex(iter.nextU2ToInt());
+                    pool.addConstantInfo(methodHandleInfo);
+                    break;
+                case ConstantInfo.METHODTYPE_INFO:
+                    MethodTypeInfo methodTypeInfo = new MethodTypeInfo(pool);
+                    methodTypeInfo.setDescriptorIndex(iter.nextU2ToInt());
+                    pool.addConstantInfo(methodTypeInfo);
+                    break;
+                case ConstantInfo.INVOKEDYNAMIC_INFO:
+                    InvokeDynamicInfo invokeDynamicInfo = new InvokeDynamicInfo(pool);
+                    invokeDynamicInfo.setBootstrapMethodAttrIndex(iter.nextU2ToInt());
+                    invokeDynamicInfo.setNameAndTypeIndex(iter.nextU2ToInt());
+                    pool.addConstantInfo(invokeDynamicInfo);
                     break;
                 default:
                     throw new RuntimeException("the constant pool tag " + tag + " has not been implemented yet.");
@@ -122,11 +167,11 @@ public class ClassFileParser {
         return clzIndex;
     }
 
-    private void parseInterfaces(ByteCodeIterator iter) {
+    private void parseInterfaces(ClassFile clzFile, ByteCodeIterator iter) {
         int interfaceCount = iter.nextU2ToInt();
-        logger.info("interfaceCount:{}", interfaceCount);
-        if (interfaceCount > 0) {
-            throw new RuntimeException("interfaces has not been implemented yet.");
+        for (int i = 1; i <= interfaceCount; i++) {
+            Interface anInterface = Interface.parse(clzFile.getConstantPool(), iter);
+            clzFile.addInterface(anInterface);
         }
     }
 

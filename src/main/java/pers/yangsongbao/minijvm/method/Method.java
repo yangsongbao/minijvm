@@ -4,12 +4,8 @@ import pers.yangsongbao.minijvm.attribute.AttributeInfo;
 import pers.yangsongbao.minijvm.attribute.CodeAttr;
 import pers.yangsongbao.minijvm.clz.ClassFile;
 import pers.yangsongbao.minijvm.cmd.BaseByteCodeCommand;
-import pers.yangsongbao.minijvm.constant.ConstantPool;
-import pers.yangsongbao.minijvm.constant.UTF8Info;
+import pers.yangsongbao.minijvm.constant.constantInfo.Utf8Info;
 import pers.yangsongbao.minijvm.loader.ByteCodeIterator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Method {
 
@@ -52,7 +48,7 @@ public class Method {
     }
 
     private String getParamAndReturnType() {
-        UTF8Info nameAndTypeInfo = (UTF8Info) this.getClzFile()
+        Utf8Info nameAndTypeInfo = (Utf8Info) this.getClzFile()
                 .getConstantPool().getConstantInfo(this.getDescriptorIndex());
         return nameAndTypeInfo.getValue();
     }

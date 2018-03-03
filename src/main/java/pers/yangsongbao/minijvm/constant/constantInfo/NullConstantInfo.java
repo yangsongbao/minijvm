@@ -1,4 +1,6 @@
-package pers.yangsongbao.minijvm.constant;
+package pers.yangsongbao.minijvm.constant.constantInfo;
+
+import pers.yangsongbao.minijvm.constant.ConstantInfo;
 
 /**
  * Created by songbao.yang on 2017/12/17.

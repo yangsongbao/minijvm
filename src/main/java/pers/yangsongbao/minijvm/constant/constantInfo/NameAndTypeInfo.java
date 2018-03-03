@@ -1,29 +1,32 @@
-package pers.yangsongbao.minijvm.constant;
+package pers.yangsongbao.minijvm.constant.constantInfo;
+
+import pers.yangsongbao.minijvm.constant.ConstantInfo;
+import pers.yangsongbao.minijvm.constant.ConstantPool;
 
 public class NameAndTypeInfo extends ConstantInfo {
     public int type = ConstantInfo.NAME_AND_TYPE_INFO;
 
-    private int index1;
-    private int index2;
+    private int nameIndex;
+    private int descriptorIndex;
 
     public NameAndTypeInfo(ConstantPool pool) {
         super(pool);
     }
 
-    public int getIndex1() {
-        return index1;
+    public int getNameIndex() {
+        return nameIndex;
     }
 
-    public void setIndex1(int index1) {
-        this.index1 = index1;
+    public void setNameIndex(int nameIndex) {
+        this.nameIndex = nameIndex;
     }
 
-    public int getIndex2() {
-        return index2;
+    public int getDescriptorIndex() {
+        return descriptorIndex;
     }
 
-    public void setIndex2(int index2) {
-        this.index2 = index2;
+    public void setDescriptorIndex(int descriptorIndex) {
+        this.descriptorIndex = descriptorIndex;
     }
 
     @Override
@@ -34,13 +37,13 @@ public class NameAndTypeInfo extends ConstantInfo {
 
     public String getName() {
         ConstantPool pool = this.getConstantPool();
-        UTF8Info utf8Info1 = (UTF8Info) pool.getConstantInfo(index1);
+        Utf8Info utf8Info1 = (Utf8Info) pool.getConstantInfo(nameIndex);
         return utf8Info1.getValue();
     }
 
     public String getTypeInfo() {
         ConstantPool pool = this.getConstantPool();
-        UTF8Info utf8Info2 = (UTF8Info) pool.getConstantInfo(index2);
+        Utf8Info utf8Info2 = (Utf8Info) pool.getConstantInfo(descriptorIndex);
         return utf8Info2.getValue();
     }
 

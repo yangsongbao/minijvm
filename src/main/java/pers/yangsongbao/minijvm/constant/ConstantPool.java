@@ -1,5 +1,7 @@
 package pers.yangsongbao.minijvm.constant;
 
+import pers.yangsongbao.minijvm.constant.constantInfo.Utf8Info;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class ConstantPool {
     }
 
     public String getUTF8String(int index) {
-        return ((UTF8Info) this.constantInfos.get(index)).getValue();
+        return ((Utf8Info) this.constantInfos.get(index)).getValue();
     }
 
     public int getSize() {

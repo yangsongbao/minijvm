@@ -1,4 +1,7 @@
-package pers.yangsongbao.minijvm.constant;
+package pers.yangsongbao.minijvm.constant.constantInfo;
+
+import pers.yangsongbao.minijvm.constant.ConstantInfo;
+import pers.yangsongbao.minijvm.constant.ConstantPool;
 
 public class ClassInfo extends ConstantInfo {
     private int type = ConstantInfo.CLASS_INFO;
@@ -10,7 +13,7 @@ public class ClassInfo extends ConstantInfo {
 
     public String getClassName() {
         int index = getUtf8Index();
-        UTF8Info utf8Info = (UTF8Info) constantPool.getConstantInfo(index);
+        Utf8Info utf8Info = (Utf8Info) constantPool.getConstantInfo(index);
         return utf8Info.getValue();
     }
 

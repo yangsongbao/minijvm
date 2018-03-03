@@ -1,11 +1,14 @@
-package pers.yangsongbao.minijvm.constant;
+package pers.yangsongbao.minijvm.constant.constantInfo;
 
-public class UTF8Info extends ConstantInfo {
+import pers.yangsongbao.minijvm.constant.ConstantInfo;
+import pers.yangsongbao.minijvm.constant.ConstantPool;
+
+public class Utf8Info extends ConstantInfo {
     private int type = ConstantInfo.UTF8_INFO;
     private int length;
     private String value;
 
-    public UTF8Info(ConstantPool pool) {
+    public Utf8Info(ConstantPool pool) {
         super(pool);
     }
 
@@ -37,7 +40,7 @@ public class UTF8Info extends ConstantInfo {
 
     @Override
     public String toString() {
-        return "UTF8Info [type=" + type + ", length=" + length + ", value=" + value + ")]";
+        return "Utf8Info [type=" + type + ", length=" + length + ", value=" + value + ")]";
     }
 
 }

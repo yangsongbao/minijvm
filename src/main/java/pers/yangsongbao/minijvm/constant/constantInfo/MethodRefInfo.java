@@ -1,8 +1,11 @@
-package pers.yangsongbao.minijvm.constant;
+package pers.yangsongbao.minijvm.constant.constantInfo;
+
+import pers.yangsongbao.minijvm.constant.ConstantInfo;
+import pers.yangsongbao.minijvm.constant.ConstantPool;
 
 public class MethodRefInfo extends ConstantInfo {
 
-    private int type = ConstantInfo.METHOD_INFO;
+    private int type = METHOD_INFO;
 
     private int classInfoIndex;
     private int nameAndTypeIndex;

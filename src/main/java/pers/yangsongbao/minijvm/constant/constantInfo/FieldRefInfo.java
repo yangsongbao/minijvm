@@ -1,5 +1,11 @@
-package pers.yangsongbao.minijvm.constant;
+package pers.yangsongbao.minijvm.constant.constantInfo;
 
+import pers.yangsongbao.minijvm.constant.ConstantInfo;
+import pers.yangsongbao.minijvm.constant.ConstantPool;
+
+/**
+ * @author songbao.yang
+ */
 public class FieldRefInfo extends ConstantInfo {
     private int type = ConstantInfo.FIELD_INFO;
     private int classInfoIndex;
@@ -30,6 +36,7 @@ public class FieldRefInfo extends ConstantInfo {
         this.nameAndTypeIndex = nameAndTypeIndex;
     }
 
+    @Override
     public String toString() {
 
         NameAndTypeInfo typeInfo = (NameAndTypeInfo) this.getConstantInfo(this.getNameAndTypeIndex());
@@ -41,7 +48,7 @@ public class FieldRefInfo extends ConstantInfo {
 
         ClassInfo classInfo = (ClassInfo) this.getConstantInfo(this.getClassInfoIndex());
 
-        UTF8Info utf8Info = (UTF8Info) this.getConstantInfo(classInfo.getUtf8Index());
+        Utf8Info utf8Info = (Utf8Info) this.getConstantInfo(classInfo.getUtf8Index());
 
         return utf8Info.getValue();
 

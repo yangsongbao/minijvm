@@ -3,7 +3,7 @@ package pers.yangsongbao.minijvm.field;
 import pers.yangsongbao.minijvm.attribute.AttributeInfo;
 import pers.yangsongbao.minijvm.attribute.ConstantValue;
 import pers.yangsongbao.minijvm.constant.ConstantPool;
-import pers.yangsongbao.minijvm.constant.UTF8Info;
+import pers.yangsongbao.minijvm.constant.constantInfo.Utf8Info;
 import pers.yangsongbao.minijvm.loader.ByteCodeIterator;
 
 /**
@@ -52,8 +52,8 @@ public class Field {
 
     @Override
     public String toString() {
-        String name = ((UTF8Info) constantPool.getConstantInfo(this.nameIndex)).getValue();
-        String desc = ((UTF8Info) constantPool.getConstantInfo(this.descriptorIndex)).getValue();
+        String name = ((Utf8Info) constantPool.getConstantInfo(this.nameIndex)).getValue();
+        String desc = ((Utf8Info) constantPool.getConstantInfo(this.descriptorIndex)).getValue();
         return name + ":" + desc;
     }
 }
