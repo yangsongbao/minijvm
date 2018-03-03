@@ -1,6 +1,6 @@
 package pers.yangsongbao.minijvm.loader;
 
-import com.sun.deploy.util.StringUtils;
+import com.google.common.base.Joiner;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +56,7 @@ public class ClassFileLoader {
     }
 
     public String getClassPath() {
-        return StringUtils.join(classPaths, ";");
+        Joiner joiner = Joiner.on(";");
+        return joiner.join(classPaths);
     }
 }

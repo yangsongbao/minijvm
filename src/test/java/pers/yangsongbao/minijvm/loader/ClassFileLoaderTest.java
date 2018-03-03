@@ -26,20 +26,15 @@ public class ClassFileLoaderTest {
 
     @Test
     public void loadClass() throws Exception {
-        String classPath = "D:\\project\\Learn\\minijvm\\target\\test-classes";
+        String classPath = "D:\\project\\Learn\\minijvm\\target\\classes\\pers\\yangsongbao\\minijvm\\test";
         classFileLoader.addClassPath(classPath);
-        String className = "pers.yangsongbao.loader.HelloWorld";
+        String className = "pers.yangsongbao.minijvm.test";
         ClassFile classFile = classFileLoader.loadClass(className);
 
         //bytecode version jdk1.7
         Assert.assertTrue(classFile.getMinorVersion() == 0);
         Assert.assertTrue(classFile.getMajorVersion() == 51);
 
-        Assert.assertTrue(classFile.getConstantPool().getSize() == 49);
-
-        Assert.assertTrue(classFile.getFields().size() == 1);
-
-        Assert.assertTrue(classFile.getMethods().size() == 2);
     }
 
     @Test
