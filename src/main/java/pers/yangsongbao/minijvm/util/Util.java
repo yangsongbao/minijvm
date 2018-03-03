@@ -1,9 +1,12 @@
 package pers.yangsongbao.minijvm.util;
 
+/**
+ * @author songbao.yang
+ */
 public class Util {
     public static int byteToInt(byte[] codes) {
         String s1 = byteToHexString(codes);
-        return Integer.valueOf(s1, 16).intValue();
+        return Integer.valueOf(s1, 16);
     }
 
     public static String byteToHexString(byte[] codes) {

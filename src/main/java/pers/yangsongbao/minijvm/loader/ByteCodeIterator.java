@@ -5,6 +5,9 @@ import pers.yangsongbao.minijvm.util.Util;
 
 import java.util.Arrays;
 
+/**
+ * @author songbao.yang
+ */
 public class ByteCodeIterator {
     byte[] codes;
     int pos = 0;
