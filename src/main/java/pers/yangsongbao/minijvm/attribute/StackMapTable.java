@@ -14,13 +14,10 @@ public class StackMapTable extends AttributeInfo {
         super(attrNameIndex, attrLen);
     }
 
-    public static StackMapTable parse(ByteCodeIterator iter) {
-        int index = iter.nextU2ToInt();
-        int len = iter.nextU4ToInt();
-        StackMapTable stackMapTable = new StackMapTable(index, len);
-
+    public static StackMapTable parse(ByteCodeIterator iter, int attrNameIndex, int attrLen) {
+        StackMapTable stackMapTable = new StackMapTable(attrNameIndex, attrLen);
         //todo 后面的StackMapTable太过复杂， 不再处理， 只把原始的代码读进来保存
-        String code = iter.nextUxToHexString(len);
+        String code = iter.nextUxToHexString(attrLen);
         stackMapTable.setOriginalCode(code);
 
         return stackMapTable;

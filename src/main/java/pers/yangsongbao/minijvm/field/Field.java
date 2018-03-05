@@ -1,10 +1,13 @@
 package pers.yangsongbao.minijvm.field;
 
-import pers.yangsongbao.minijvm.attribute.*;
-import pers.yangsongbao.minijvm.attribute.Deprecated;
+import pers.yangsongbao.minijvm.attribute.AttributeInfo;
+import pers.yangsongbao.minijvm.clz.ClassFile;
 import pers.yangsongbao.minijvm.constant.ConstantPool;
 import pers.yangsongbao.minijvm.constant.constantInfo.Utf8Info;
 import pers.yangsongbao.minijvm.loader.ByteCodeIterator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author songbao.yang
@@ -15,11 +18,7 @@ public class Field {
     private int nameIndex;
     private int descriptorIndex;
     private ConstantPool constantPool;
-
-    private ConstantValue constValue;
-    private Deprecated deprecated;
-    private Signature signature;
-    private Synthetic synthetic;
+    private List<AttributeInfo> attributes = new ArrayList<>();
 
     public Field(int accessFlag, int nameIndex, int descriptorIndex, ConstantPool constantPool) {
         this.accessFlag = accessFlag;
@@ -28,74 +27,23 @@ public class Field {
         this.constantPool = constantPool;
     }
 
-    public static Field parse(ConstantPool constantPool, ByteCodeIterator iter) {
+    public static Field parse(ClassFile clzFile, ByteCodeIterator iter) {
         int accessFlag = iter.nextU2ToInt();
         int nameIndex = iter.nextU2ToInt();
         int descIndex = iter.nextU2ToInt();
         int attrCount = iter.nextU2ToInt();
 
+        ConstantPool constantPool = clzFile.getConstantPool();
         Field field = new Field(accessFlag, nameIndex, descIndex, constantPool);
         for (int i = 1; i <= attrCount; i++) {
-            int attrNameIndex = iter.nextU2ToInt();
-            int attrLen = iter.nextU4ToInt();
-            String attrName = constantPool.getUTF8String(attrNameIndex);
-            switch (attrName){
-                case AttributeInfo.CONSTANT_VALUE:
-                    ConstantValue constValue = new ConstantValue(attrNameIndex, attrLen);
-                    constValue.setConstValueIndex(iter.nextU2ToInt());
-                    field.setConstantValue(constValue);
-                    break;
-                case AttributeInfo.DEPRECATED:
-                    Deprecated deprecated = new Deprecated(attrNameIndex, attrLen);
-                    field.setDeprecated(deprecated);
-                    break;
-                case AttributeInfo.SIGNATURE:
-                    Signature signature = new Signature(attrNameIndex, attrLen);
-                    signature.setIgnatureIndex(iter.nextU2ToInt());
-                    field.setSignature(signature);
-                    break;
-                case AttributeInfo.SYNTHETIC:
-                    Synthetic synthetic = new Synthetic(attrNameIndex, attrLen);
-                    field.setSynthetic(synthetic);
-                    break;
-                case AttributeInfo.RUNTIME_VISIBLE_ANNOTATIONS:
-                    throw new RuntimeException("the filed attribute " + AttributeInfo.RUNTIME_VISIBLE_ANNOTATIONS + " has not been implemented yet.");
-                case AttributeInfo.RUNTIME_INVISIBLE_ANNOTATIONS:
-                    throw new RuntimeException("the filed attribute " + AttributeInfo.RUNTIME_INVISIBLE_ANNOTATIONS + " has not been implemented yet.");
-                default:
-                    throw new RuntimeException("the filed attribute " + attrName + " has not been implemented yet.");
-            }
+            AttributeInfo attributeInfo = AttributeInfo.parse(clzFile, iter);
+            field.addAttribute(attributeInfo);
         }
         return field;
     }
 
-
-    public void setConstantValue(ConstantValue constValue) {
-        this.constValue = constValue;
-    }
-
-    public Deprecated getDeprecated() {
-        return deprecated;
-    }
-
-    public void setDeprecated(Deprecated deprecated) {
-        this.deprecated = deprecated;
-    }
-
-    public Signature getSignature() {
-        return signature;
-    }
-
-    public void setSignature(Signature signature) {
-        this.signature = signature;
-    }
-
-    public Synthetic getSynthetic() {
-        return synthetic;
-    }
-
-    public void setSynthetic(Synthetic synthetic) {
-        this.synthetic = synthetic;
+    private void addAttribute(AttributeInfo attributeInfo){
+        attributes.add(attributeInfo);
     }
 
     @Override

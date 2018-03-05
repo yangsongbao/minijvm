@@ -1,5 +1,7 @@
 package pers.yangsongbao.minijvm.attribute;
 
+import pers.yangsongbao.minijvm.loader.ByteCodeIterator;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +11,24 @@ import java.util.List;
  * @date 2018/3/4
  */
 public class InnerClasses extends AttributeInfo {
-    private int numberOfClasses;
     List<ClassInfo> classes = new ArrayList<>();
 
     public InnerClasses(int attrNameIndex, int attrLen) {
         super(attrNameIndex, attrLen);
+    }
+
+    public static InnerClasses parse(ByteCodeIterator iter, int attrNameIndex, int attrLen) {
+        InnerClasses innerClasses = new InnerClasses(attrNameIndex, attrLen);
+        int number = iter.nextU2ToInt();
+        for (int i = 1; i <= number ; i++) {
+            int innerClassInfoIndex = iter.nextU2ToInt();
+            int outerClassInfoIndex = iter.nextU2ToInt();
+            int innerNameIndex = iter.nextU2ToInt();
+            int innerClassAccessFlags = iter.nextU2ToInt();
+            ClassInfo classInfo = new ClassInfo(innerClassInfoIndex, outerClassInfoIndex, innerNameIndex, innerClassAccessFlags);
+            innerClasses.addClassInfo(classInfo);
+        }
+        return innerClasses;
     }
 
     public void addClassInfo(ClassInfo classInfo) {
@@ -25,6 +40,13 @@ public class InnerClasses extends AttributeInfo {
         private int outerClassInfoIndex;
         private int innerNameIndex;
         private int innerClassAccessFlags;
+
+        public ClassInfo(int innerClassInfoIndex, int outerClassInfoIndex, int innerNameIndex, int innerClassAccessFlags) {
+            this.innerClassInfoIndex = innerClassInfoIndex;
+            this.outerClassInfoIndex = outerClassInfoIndex;
+            this.innerNameIndex = innerNameIndex;
+            this.innerClassAccessFlags = innerClassAccessFlags;
+        }
 
         public int getInnerClassInfoIndex() {
             return innerClassInfoIndex;

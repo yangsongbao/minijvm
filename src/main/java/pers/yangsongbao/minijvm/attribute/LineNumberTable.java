@@ -42,15 +42,10 @@ public class LineNumberTable extends AttributeInfo {
         this.items.add(item);
     }
 
-    public static LineNumberTable parse(ByteCodeIterator iter) {
+    public static LineNumberTable parse(ByteCodeIterator iter, int attrNameIndex, int attrLen) {
 
-        int index = iter.nextU2ToInt();
-        int len = iter.nextU4ToInt();
-
-        LineNumberTable table = new LineNumberTable(index, len);
-
+        LineNumberTable table = new LineNumberTable(attrNameIndex, attrLen);
         int itemLen = iter.nextU2ToInt();
-
         for (int i = 1; i <= itemLen; i++) {
             LineNumberItem item = new LineNumberItem();
             item.setStartPC(iter.nextU2ToInt());

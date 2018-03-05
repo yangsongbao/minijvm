@@ -1,5 +1,7 @@
 package pers.yangsongbao.minijvm.attribute;
 
+import pers.yangsongbao.minijvm.loader.ByteCodeIterator;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +11,6 @@ import java.util.List;
  * @date 2018/3/4
  */
 public class BootstrapMethods extends AttributeInfo {
-    private int numBootstrapMethods;
     private List<BootstrapMethod> bootstrapMethods = new ArrayList<>();
 
     public BootstrapMethods(int attrNameIndex, int attrLen) {
@@ -18,6 +19,16 @@ public class BootstrapMethods extends AttributeInfo {
 
     public void addBootstrapMethod(BootstrapMethod bootstrapMethod){
         bootstrapMethods.add(bootstrapMethod);
+    }
+
+    public static BootstrapMethods parse(ByteCodeIterator iter, int attrNameIndex, int attrLen) {
+        int numBootstrapMethods = iter.nextU2ToInt();
+        BootstrapMethods bootstrapMethods = new BootstrapMethods(attrNameIndex, attrLen);
+        for (int i = 1; i <= numBootstrapMethods; i++) {
+            BootstrapMethod bootstrapMethod = BootstrapMethod.parse(iter);
+            bootstrapMethods.addBootstrapMethod(bootstrapMethod);
+        }
+        return bootstrapMethods;
     }
 
 }

@@ -23,15 +23,10 @@ public class LocalVariableTable extends AttributeInfo {
         this.items.add(item);
     }
 
-    public static LocalVariableTable parse(ByteCodeIterator iter) {
+    public static LocalVariableTable parse(ByteCodeIterator iter, int attrNameIndex, int attrLen) {
 
-        int index = iter.nextU2ToInt();
-        int len = iter.nextU4ToInt();
-
-        LocalVariableTable table = new LocalVariableTable(index, len);
-
+        LocalVariableTable table = new LocalVariableTable(attrNameIndex, attrLen);
         int itemLen = iter.nextU2ToInt();
-
         for (int i = 1; i <= itemLen; i++) {
             LocalVariableTableItem item = new LocalVariableTableItem();
             item.setStartPC(iter.nextU2ToInt());

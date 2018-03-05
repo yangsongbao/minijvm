@@ -6,9 +6,14 @@ import org.slf4j.LoggerFactory;
 import pers.yangsongbao.minijvm.clz.ClassFile;
 import pers.yangsongbao.minijvm.cmd.BaseByteCodeCommand;
 import pers.yangsongbao.minijvm.cmd.CommandParser;
-import pers.yangsongbao.minijvm.constant.ConstantPool;
 import pers.yangsongbao.minijvm.loader.ByteCodeIterator;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author songbao.yang
+ */
 public class CodeAttr extends AttributeInfo {
     private static final Logger logger = LoggerFactory.getLogger(CodeAttr.class);
 
@@ -17,9 +22,10 @@ public class CodeAttr extends AttributeInfo {
     private int codeLen;
     private String code;
     private BaseByteCodeCommand[] cmds;
-    private LineNumberTable lineNumTable;
-    private LocalVariableTable localVarTable;
-    private StackMapTable stackMapTable;
+    List<AttributeInfo> attributes = new ArrayList<>();
+//    private LineNumberTable lineNumTable;
+//    private LocalVariableTable localVarTable;
+//    private StackMapTable stackMapTable;
 
     public CodeAttr(int attrNameIndex, int attrLen, int maxStack, int maxLocals, int codeLen, String code, BaseByteCodeCommand[] cmds) {
         super(attrNameIndex, attrLen);
@@ -30,6 +36,10 @@ public class CodeAttr extends AttributeInfo {
         this.cmds = cmds;
     }
 
+    public void addAttributes(AttributeInfo attributeInfo) {
+        attributes.add(attributeInfo);
+    }
+
     public String getCode() {
         return code;
     }
@@ -38,16 +48,7 @@ public class CodeAttr extends AttributeInfo {
         return cmds;
     }
 
-    public void setLineNumberTable(LineNumberTable t) {
-        this.lineNumTable = t;
-    }
-
-    public void setLocalVariableTable(LocalVariableTable t) {
-        this.localVarTable = t;
-    }
-
-    public static CodeAttr parse(ClassFile clzFile, ByteCodeIterator iter) {
-        int attrNameIndex = iter.nextU2ToInt();
+    public static CodeAttr parse(ClassFile clzFile, ByteCodeIterator iter, int attrNameIndex) {
         int attrLen = iter.nextU4ToInt();
         int maxStack = iter.nextU2ToInt();
         int maxLocals = iter.nextU2ToInt();
@@ -67,30 +68,10 @@ public class CodeAttr extends AttributeInfo {
 
         int subAttrCount = iter.nextU2ToInt();
         for (int i = 1; i <= subAttrCount; i++) {
-            int subAttrIndex = iter.nextU2ToInt();
-            String subAttrName = clzFile.getConstantPool().getUTF8String(subAttrIndex);
-            logger.info("CodeAttr parse subAttrName: {}", subAttrName);
-            //已经向前移动了U2, 现在退回去。
-            iter.back(2);
-            if (AttributeInfo.LINE_NUM_TABLE.equalsIgnoreCase(subAttrName)) {
-                LineNumberTable lineNumberTable = LineNumberTable.parse(iter);
-                codeAttr.setLineNumberTable(lineNumberTable);
-            } else if (AttributeInfo.LOCAL_VAR_TABLE.equalsIgnoreCase(subAttrName)) {
-                LocalVariableTable localVariableTable = LocalVariableTable.parse(iter);
-                codeAttr.setLocalVariableTable(localVariableTable);
-            } else if (AttributeInfo.STACK_MAP_TABLE.equalsIgnoreCase(subAttrName)) {
-                StackMapTable stackMapTable = StackMapTable.parse(iter);
-                codeAttr.setStackMapTable(stackMapTable);
-            } else {
-                throw new RuntimeException("Need code to process " + subAttrName);
-            }
+            AttributeInfo attributeInfo = AttributeInfo.parse(clzFile, iter);
+            codeAttr.addAttributes(attributeInfo);
         }
         return codeAttr;
     }
-
-    private void setStackMapTable(StackMapTable t) {
-        this.stackMapTable = t;
-    }
-
 
 }

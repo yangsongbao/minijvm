@@ -13,6 +13,8 @@ public class EnclosingMethod extends AttributeInfo {
         super(attrNameIndex, attrLen);
     }
 
+
+
     public int getClassIndex() {
         return classIndex;
     }
