@@ -1,6 +1,6 @@
 package pers.yangsongbao.minijvm.constant;
 
-import pers.yangsongbao.minijvm.constant.constantInfo.*;
+import pers.yangsongbao.minijvm.print.Visitor;
 
 /**
  * @author songbao.yang
@@ -45,17 +45,4 @@ public abstract class ConstantInfo {
 
     public abstract void accept(Visitor visitor);
 
-    public static interface Visitor {
-        public void visitClassInfo(ClassInfo info);
-
-        public void visitFieldRef(FieldRefInfo info);
-
-        public void visitMethodRef(MethodRefInfo info);
-
-        public void visitNameAndType(NameAndTypeInfo info);
-
-        public void visitString(StringInfo info);
-
-        public void visistUTF8(Utf8Info info);
-    }
 }

@@ -2,6 +2,7 @@ package pers.yangsongbao.minijvm.constant.constantInfo;
 
 import pers.yangsongbao.minijvm.constant.ConstantInfo;
 import pers.yangsongbao.minijvm.constant.ConstantPool;
+import pers.yangsongbao.minijvm.print.Visitor;
 
 public class NameAndTypeInfo extends ConstantInfo {
     public int type = ConstantInfo.NAME_AND_TYPE_INFO;

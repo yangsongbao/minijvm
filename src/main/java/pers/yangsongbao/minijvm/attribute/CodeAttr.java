@@ -48,11 +48,9 @@ public class CodeAttr extends AttributeInfo {
         return cmds;
     }
 
-    public static CodeAttr parse(ClassFile clzFile, ByteCodeIterator iter, int attrNameIndex) {
-        int attrLen = iter.nextU4ToInt();
+    public static CodeAttr parse(ClassFile clzFile, ByteCodeIterator iter, int attrNameIndex, int attrLen) {
         int maxStack = iter.nextU2ToInt();
         int maxLocals = iter.nextU2ToInt();
-
         int codeLen = iter.nextU4ToInt();
         String code = iter.nextUxToHexString(codeLen);
 

@@ -43,7 +43,6 @@ public class LineNumberTable extends AttributeInfo {
     }
 
     public static LineNumberTable parse(ByteCodeIterator iter, int attrNameIndex, int attrLen) {
-
         LineNumberTable table = new LineNumberTable(attrNameIndex, attrLen);
         int itemLen = iter.nextU2ToInt();
         for (int i = 1; i <= itemLen; i++) {

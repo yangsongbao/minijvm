@@ -2,6 +2,7 @@ package pers.yangsongbao.minijvm.loader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pers.yangsongbao.minijvm.attribute.AttributeInfo;
 import pers.yangsongbao.minijvm.clz.AccessFlag;
 import pers.yangsongbao.minijvm.clz.ClassFile;
 import pers.yangsongbao.minijvm.clz.ClassIndex;
@@ -119,10 +120,10 @@ public class ClassFileParser {
                     pool.addConstantInfo(method);
                     break;
                 case ConstantInfo.INTERFACEMETHODREF_INFO:
-                    InterfaceMethodrefInfo interfaceMethodrefInfo = new InterfaceMethodrefInfo(pool);
-                    interfaceMethodrefInfo.setClassInfoIndex(iter.nextU2ToInt());
-                    interfaceMethodrefInfo.setNameAndTypeIndex(iter.nextU2ToInt());
-                    pool.addConstantInfo(interfaceMethodrefInfo);
+                    InterfaceMethodRefInfo interfaceMethodRefInfo = new InterfaceMethodRefInfo(pool);
+                    interfaceMethodRefInfo.setClassInfoIndex(iter.nextU2ToInt());
+                    interfaceMethodRefInfo.setNameAndTypeIndex(iter.nextU2ToInt());
+                    pool.addConstantInfo(interfaceMethodRefInfo);
                     break;
                 case ConstantInfo.NAME_AND_TYPE_INFO:
                     NameAndTypeInfo nameType = new NameAndTypeInfo(pool);
@@ -195,8 +196,8 @@ public class ClassFileParser {
     private void parseAttributes(ClassFile clzFile, ByteCodeIterator iter) {
         int attrCount = iter.nextU2ToInt();
         for (int i = 1; i <= attrCount; i++) {
-
+            AttributeInfo attributeInfo = AttributeInfo.parse(clzFile, iter);
+            clzFile.addAttributeInfo(attributeInfo);
         }
-
     }
 }

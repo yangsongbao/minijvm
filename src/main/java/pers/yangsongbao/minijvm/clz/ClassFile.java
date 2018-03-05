@@ -25,7 +25,7 @@ public class ClassFile {
     private List<Interface> interfaces = new ArrayList<>();
     private List<Field> fields = new ArrayList<Field>();
     private List<Method> methods = new ArrayList<>();
-    private List<AttributeInfo> attributeInfos = new ArrayList<>();
+    private List<AttributeInfo> attributes = new ArrayList<>();
 
     public void addInterface(Interface anInterface) {
         interfaces.add(anInterface);
@@ -40,7 +40,7 @@ public class ClassFile {
     }
 
     public void addAttributeInfo(AttributeInfo attributeInfo) {
-        attributeInfos.add(attributeInfo);
+        attributes.add(attributeInfo);
     }
 
     public int getMinorVersion() {
@@ -107,12 +107,12 @@ public class ClassFile {
         this.methods = methods;
     }
 
-    public List<AttributeInfo> getAttributeInfos() {
-        return attributeInfos;
+    public List<AttributeInfo> getAttributes() {
+        return attributes;
     }
 
-    public void setAttributeInfos(List<AttributeInfo> attributeInfos) {
-        this.attributeInfos = attributeInfos;
+    public void setAttributes(List<AttributeInfo> attributes) {
+        this.attributes = attributes;
     }
 
 }

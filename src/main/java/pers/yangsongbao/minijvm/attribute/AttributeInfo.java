@@ -44,7 +44,7 @@ public abstract class AttributeInfo {
         String attrName = clzFile.getConstantPool().getUTF8String(attrNameIndex);
         switch (attrName){
             case AttributeInfo.CODE:
-                CodeAttr codeAttr = CodeAttr.parse(clzFile, iter, attrNameIndex);
+                CodeAttr codeAttr = CodeAttr.parse(clzFile, iter, attrNameIndex, attrLen);
                 return codeAttr;
             case AttributeInfo.CONSTANT_VALUE:
                 ConstantValue constValue = new ConstantValue(attrNameIndex, attrLen);

@@ -2,6 +2,7 @@ package pers.yangsongbao.minijvm.constant.constantInfo;
 
 import pers.yangsongbao.minijvm.constant.ConstantInfo;
 import pers.yangsongbao.minijvm.constant.ConstantPool;
+import pers.yangsongbao.minijvm.print.Visitor;
 
 public class Utf8Info extends ConstantInfo {
     private int type = ConstantInfo.UTF8_INFO;
@@ -14,7 +15,7 @@ public class Utf8Info extends ConstantInfo {
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.visistUTF8(this);
+        visitor.visitUtf8(this);
     }
 
     public int getLength() {
