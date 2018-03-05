@@ -1,7 +1,9 @@
 package pers.yangsongbao.minijvm.attribute;
 
 /**
- * Created by songbao.yang on 2017/12/17.
+ *
+ * @author songbao.yang
+ * @date 2017/12/17
  */
 public class ConstantValue extends AttributeInfo {
 

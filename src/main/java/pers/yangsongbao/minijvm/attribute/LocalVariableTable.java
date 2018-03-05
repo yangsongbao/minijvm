@@ -7,16 +7,19 @@ import pers.yangsongbao.minijvm.loader.ByteCodeIterator;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author songbao.yang
+ */
 public class LocalVariableTable extends AttributeInfo {
 
-    List<LocalVariableItem> items = new ArrayList<LocalVariableItem>();
+    List<LocalVariableTableItem> items = new ArrayList<LocalVariableTableItem>();
 
     public LocalVariableTable(int attrNameIndex, int attrLen) {
         super(attrNameIndex, attrLen);
     }
 
 
-    private void addLocalVariableItem(LocalVariableItem item) {
+    private void addLocalVariableTableItem(LocalVariableTableItem item) {
         this.items.add(item);
     }
 
@@ -30,13 +33,13 @@ public class LocalVariableTable extends AttributeInfo {
         int itemLen = iter.nextU2ToInt();
 
         for (int i = 1; i <= itemLen; i++) {
-            LocalVariableItem item = new LocalVariableItem();
+            LocalVariableTableItem item = new LocalVariableTableItem();
             item.setStartPC(iter.nextU2ToInt());
             item.setLength(iter.nextU2ToInt());
             item.setNameIndex(iter.nextU2ToInt());
             item.setDescIndex(iter.nextU2ToInt());
             item.setIndex(iter.nextU2ToInt());
-            table.addLocalVariableItem(item);
+            table.addLocalVariableTableItem(item);
         }
         return table;
     }
@@ -45,7 +48,7 @@ public class LocalVariableTable extends AttributeInfo {
     public String toString(ConstantPool pool) {
         StringBuilder buffer = new StringBuilder();
         buffer.append("Local Variable Table:\n");
-        for (LocalVariableItem item : items) {
+        for (LocalVariableTableItem item : items) {
             buffer.append("startPC:" + item.getStartPC()).append(",");
             buffer.append("name:" + pool.getUTF8String(item.getNameIndex())).append(",");
             buffer.append("desc:" + pool.getUTF8String(item.getDescIndex())).append(",");

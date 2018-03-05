@@ -1,5 +1,6 @@
 package pers.yangsongbao.minijvm.clz;
 
+import pers.yangsongbao.minijvm.attribute.AttributeInfo;
 import pers.yangsongbao.minijvm.constant.ConstantPool;
 import pers.yangsongbao.minijvm.field.Field;
 import pers.yangsongbao.minijvm.interfaze.Interface;
@@ -24,7 +25,7 @@ public class ClassFile {
     private List<Interface> interfaces = new ArrayList<>();
     private List<Field> fields = new ArrayList<Field>();
     private List<Method> methods = new ArrayList<>();
-
+    private List<AttributeInfo> attributeInfos = new ArrayList<>();
 
     public void addInterface(Interface anInterface) {
         interfaces.add(anInterface);
@@ -36,6 +37,10 @@ public class ClassFile {
 
     public void addMethod(Method method) {
         methods.add(method);
+    }
+
+    public void addAttributeInfo(AttributeInfo attributeInfo) {
+        attributeInfos.add(attributeInfo);
     }
 
     public int getMinorVersion() {
@@ -100,6 +105,14 @@ public class ClassFile {
 
     public void setMethods(List<Method> methods) {
         this.methods = methods;
+    }
+
+    public List<AttributeInfo> getAttributeInfos() {
+        return attributeInfos;
+    }
+
+    public void setAttributeInfos(List<AttributeInfo> attributeInfos) {
+        this.attributeInfos = attributeInfos;
     }
 
 }

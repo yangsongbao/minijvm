@@ -6,6 +6,9 @@ import pers.yangsongbao.minijvm.loader.ByteCodeIterator;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author songbao.yang
+ */
 public class LineNumberTable extends AttributeInfo {
     List<LineNumberItem> items = new ArrayList<LineNumberItem>();
 
@@ -30,13 +33,13 @@ public class LineNumberTable extends AttributeInfo {
         }
     }
 
-    public void addLineNumberItem(LineNumberItem item) {
-        this.items.add(item);
-    }
-
     public LineNumberTable(int attrNameIndex, int attrLen) {
         super(attrNameIndex, attrLen);
 
+    }
+
+    public void addLineNumberItem(LineNumberItem item) {
+        this.items.add(item);
     }
 
     public static LineNumberTable parse(ByteCodeIterator iter) {
@@ -57,6 +60,7 @@ public class LineNumberTable extends AttributeInfo {
         return table;
     }
 
+    @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder();
         buffer.append("Line Number Table:\n");

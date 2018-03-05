@@ -7,6 +7,9 @@ import pers.yangsongbao.minijvm.cmd.BaseByteCodeCommand;
 import pers.yangsongbao.minijvm.constant.constantInfo.Utf8Info;
 import pers.yangsongbao.minijvm.loader.ByteCodeIterator;
 
+/**
+ * @author songbao.yang
+ */
 public class Method {
 
     private int accessFlag;
@@ -33,11 +36,32 @@ public class Method {
             int attrNameIndex = iter.nextU2ToInt();
             String attrName = clzFile.getConstantPool().getUTF8String(attrNameIndex);
             iter.back(2);
-            if (AttributeInfo.CODE.equalsIgnoreCase(attrName)) {
-                CodeAttr codeAttr = CodeAttr.parse(clzFile, iter);
-                method.setCodeAttr(codeAttr);
-            } else {
-                throw new RuntimeException("only CODE attribute is implemented , please implement the " + attrName);
+            switch (attrName){
+                case AttributeInfo.CODE:
+                    CodeAttr codeAttr = CodeAttr.parse(clzFile, iter);
+                    method.setCodeAttr(codeAttr);
+                    break;
+                case AttributeInfo.DEPRECATED:
+
+                    break;
+                case AttributeInfo.EXCEPTIONS:
+                    break;
+                case AttributeInfo.SIGNATURE:
+                    break;
+                case AttributeInfo.SYNTHETIC:
+                    break;
+                case AttributeInfo.RUNTIME_VISIBLE_ANNOTATIONS:
+                    break;
+                case AttributeInfo.RUNTIME_INVISIBLE_ANNOTATIONS:
+                    break;
+                case AttributeInfo.RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS:
+                    break;
+                case AttributeInfo.RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS:
+                    break;
+                case AttributeInfo.ANNOTATION_DEFAULT:
+                    break;
+                default:
+                    throw new RuntimeException("the method attribute " + attrName + " has not been implemented yet.");
             }
         }
         return method;

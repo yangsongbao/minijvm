@@ -6,19 +6,19 @@
         - class文件的版本
         - 常量池
             - CONSTANT_Utf8_info（完成）
-            - CONSTANT_Integer_info（）
-            - CONSTANT_Float_info
-            - CONSTANT_Long_info
-            - CONSTANT_Double_info
-            - CONSTANT_Class_info
-            - CONSTANT_String_info
+            - CONSTANT_Integer_info（完成）
+            - CONSTANT_Float_info（完成）
+            - CONSTANT_Long_info（完成）
+            - CONSTANT_Double_info（完成）
+            - CONSTANT_Class_info（完成）
+            - CONSTANT_String_info（完成）
             - CONSTANT_Fieldref_info
             - CONSTANT_Methodref_info
-            - CONSTANT_InterfaceMethodref_info
-            - CONSTANT_NameAndType_info
-            - CONSTANT_MethodHandle_info
-            - CONSTANT_MethodType_info
-            - CONSTANT_InvokeDynamic_info
+            - CONSTANT_InterfaceMethodref_info（完成）
+            - CONSTANT_NameAndType_info（完成）
+            - CONSTANT_MethodHandle_info（完成）
+            - CONSTANT_MethodType_info（完成）
+            - CONSTANT_InvokeDynamic_info（完成）
         - 访问标志
         - 类索引
         - 父类索引
@@ -26,6 +26,26 @@
         - 字段计数器和字段表
         - 方法计数器和方发表
         - 属性计数器和属性表
+            - ConstantValue
+            - Code
+            - StackMapTable
+            - Exceptions
+            - InnerClasses
+            - EnclosingMethod
+            - Synthetic
+            - Signature
+            - SourceFile
+            - SourceDebugExtension
+            - LineNumberTable
+            - LocalVariableTable
+            - LocalVariableTypeTable
+            - Deprecated
+            - RuntimeVisibleAnnotations
+            - RuntimeInvisibleAnnotations
+            - RuntimeVisibleParameterAnnotations
+            - RuntimeInvisibleParameterAnnotations
+            - AnnotationDefault
+            - BootstrapMethods
         
     2. classPath的管理
 2. 虚拟机字节码执行引擎

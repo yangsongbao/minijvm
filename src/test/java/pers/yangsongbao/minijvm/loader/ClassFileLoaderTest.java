@@ -26,9 +26,9 @@ public class ClassFileLoaderTest {
 
     @Test
     public void loadClass() throws Exception {
-        String classPath = "D:\\project\\Learn\\minijvm\\target\\classes\\pers\\yangsongbao\\minijvm\\test";
+        String classPath = "D:\\project\\Learn\\minijvm\\target\\classes";
         classFileLoader.addClassPath(classPath);
-        String className = "pers.yangsongbao.minijvm.test";
+        String className = "pers.yangsongbao.minijvm.test.Plane";
         ClassFile classFile = classFileLoader.loadClass(className);
 
         //bytecode version jdk1.7

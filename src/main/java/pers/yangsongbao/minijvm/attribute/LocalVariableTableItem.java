@@ -1,6 +1,9 @@
 package pers.yangsongbao.minijvm.attribute;
 
-public class LocalVariableItem {
+/**
+ * @author songbao.yang
+ */
+public class LocalVariableTableItem {
     private int startPC;
     private int length;
     private int nameIndex;

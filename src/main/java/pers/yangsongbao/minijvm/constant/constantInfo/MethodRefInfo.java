@@ -35,6 +35,7 @@ public class MethodRefInfo extends ConstantInfo {
         this.nameAndTypeIndex = nameAndTypeIndex;
     }
 
+    @Override
     public String toString() {
 
         return getClassName() + " : " + this.getMethodName() + " : " + this.getParamAndReturnType();

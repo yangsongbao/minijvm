@@ -41,7 +41,7 @@ public class ClassFileParser {
         clzFile.setClassIndex(parseClassInfex(iter));
 
         parseInterfaces(clzFile, iter);
-        parseFileds(clzFile, iter);
+        parseFields(clzFile, iter);
         parseMethods(clzFile, iter);
 
         return clzFile;
@@ -175,7 +175,7 @@ public class ClassFileParser {
         }
     }
 
-    private void parseFileds(ClassFile clzFile, ByteCodeIterator iter) {
+    private void parseFields(ClassFile clzFile, ByteCodeIterator iter) {
         int fieldCount = iter.nextU2ToInt();
         for (int i = 1; i <= fieldCount; i++) {
             Field f = Field.parse(clzFile.getConstantPool(), iter);
