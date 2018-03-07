@@ -1,7 +1,6 @@
 package pers.yangsongbao.minijvm.attribute;
 
 /**
- *
  * @author songbao.yang
  * @date 2018/3/4
  */

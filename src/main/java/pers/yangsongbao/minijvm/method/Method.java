@@ -16,19 +16,16 @@ public class Method {
     private int accessFlag;
     private int nameIndex;
     private int descriptorIndex;
-    List<AttributeInfo> attributes = new ArrayList<>();
-
     private ClassFile clzFile;
+    private List<AttributeInfo> attributes;
+
 
     public Method(ClassFile clzFile, int accessFlag, int nameIndex, int descriptorIndex) {
         this.clzFile = clzFile;
         this.accessFlag = accessFlag;
         this.nameIndex = nameIndex;
         this.descriptorIndex = descriptorIndex;
-    }
-
-    public void addAttribute(AttributeInfo attributeInfo){
-        attributes.add(attributeInfo);
+        this.attributes = new ArrayList<>();
     }
 
     public static Method parse(ClassFile clzFile, ByteCodeIterator iter) {
@@ -43,6 +40,10 @@ public class Method {
             method.addAttribute(attributeInfo);
         }
         return method;
+    }
+
+    public void addAttribute(AttributeInfo attributeInfo) {
+        attributes.add(attributeInfo);
     }
 
     private String getParamAndReturnType() {

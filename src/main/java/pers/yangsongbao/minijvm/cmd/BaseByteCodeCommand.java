@@ -14,10 +14,6 @@ import java.util.Map;
  */
 public abstract class BaseByteCodeCommand {
 
-    private String opCode;
-    private ClassFile clzFile;
-    private int offset;
-
     public static final String aconst_null = "01";
     public static final String new_object = "BB";
     public static final String lstore = "37";
@@ -37,11 +33,9 @@ public abstract class BaseByteCodeCommand {
     public static final String iload_2 = "1C";
     public static final String iload_3 = "1D";
     public static final String fload_3 = "25";
-
     public static final String voidreturn = "B1";
     public static final String ireturn = "AC";
     public static final String freturn = "AE";
-
     public static final String astore_1 = "4C";
     public static final String if_icmp_ge = "A2";
     public static final String if_icmple = "A4";
@@ -109,6 +103,10 @@ public abstract class BaseByteCodeCommand {
 
         codeMap.put("12", "ldc");
     }
+
+    private String opCode;
+    private ClassFile clzFile;
+    private int offset;
 
 
     protected BaseByteCodeCommand(ClassFile clzFile, String opCode) {

@@ -1,17 +1,14 @@
 package pers.yangsongbao.minijvm.print;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import pers.yangsongbao.minijvm.constant.constantInfo.*;
 
 /**
- *
  * @author songbao.yang
  * @date 2018/3/5
  */
 public class ConstantPoolVisitor implements Visitor {
-    private static final Logger log = LoggerFactory.getLogger(ConstantPoolVisitor.class);
 
+    //todo
     @Override
     public void visitClassInfo(ClassInfo info) {
         StringBuilder buffer = new StringBuilder();
@@ -24,7 +21,11 @@ public class ConstantPoolVisitor implements Visitor {
 
     @Override
     public void visitDoubleInfo(DoubleInfo info) {
-
+        StringBuilder buffer = new StringBuilder();
+        buffer.append("Double    ")
+                .append(info.getValue())
+                .append("d");
+        System.out.println(buffer);
     }
 
     @Override
@@ -39,12 +40,28 @@ public class ConstantPoolVisitor implements Visitor {
 
     @Override
     public void visitFloatInfo(FloatInfo info) {
-
+        StringBuilder buffer = new StringBuilder();
+        buffer.append("Float    ")
+                .append(info.getValue())
+                .append("f");
+        System.out.println(buffer);
     }
 
     @Override
     public void visitIntegerInfo(IntegerInfo info) {
+        StringBuilder buffer = new StringBuilder();
+        buffer.append("Integer    ")
+                .append(info.getValue());
+        System.out.println(buffer);
+    }
 
+    @Override
+    public void visitLongInfo(LongInfo info) {
+        StringBuilder buffer = new StringBuilder();
+        buffer.append("Long    ")
+                .append(info.getValue())
+                .append("l");
+        System.out.println(buffer);
     }
 
     @Override
@@ -57,13 +74,14 @@ public class ConstantPoolVisitor implements Visitor {
 
     }
 
+
     @Override
-    public void visitLongInfo(LongInfo info) {
+    public void visitMethodHandleInfo(MethodHandleInfo info) {
 
     }
 
     @Override
-    public void visitMethodHandleInfo(MethodHandleInfo info) {
+    public void visitMethodTypeInfo(MethodTypeInfo info) {
 
     }
 
@@ -95,7 +113,7 @@ public class ConstantPoolVisitor implements Visitor {
     }
 
     @Override
-    public void visitUtf8(Utf8Info info) {
+    public void visitUtf8Info(Utf8Info info) {
         StringBuilder buffer = new StringBuilder();
         buffer.append("UTF8    ").append(info.getValue());
         System.out.println(buffer);

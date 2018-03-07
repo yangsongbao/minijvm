@@ -1,7 +1,6 @@
 package pers.yangsongbao.minijvm.attribute;
 
 /**
- *
  * @author songbao.yang
  * @date 2018/3/4
  */
@@ -12,7 +11,6 @@ public class EnclosingMethod extends AttributeInfo {
     public EnclosingMethod(int attrNameIndex, int attrLen) {
         super(attrNameIndex, attrLen);
     }
-
 
 
     public int getClassIndex() {

@@ -4,7 +4,6 @@ import pers.yangsongbao.minijvm.clz.ClassFile;
 import pers.yangsongbao.minijvm.loader.ByteCodeIterator;
 
 /**
- *
  * @author songbao.yang
  * @date 2017/12/17
  */
@@ -22,7 +21,7 @@ public abstract class AttributeInfo {
     public static final String SOURCE_FILE = "SourceFile";
     public static final String SOURCE_DEBUG_EXTENSION = "SourceDebugExtension";
     public static final String SYNTHETIC = "Synthetic";
-    public static final String LOCAL_VAR_TYPE_TABLE= "LocalVariableTypeTable";
+    public static final String LOCAL_VAR_TYPE_TABLE = "LocalVariableTypeTable";
     public static final String RUNTIME_VISIBLE_ANNOTATIONS = "RuntimeVisibleAnnotations";
     public static final String RUNTIME_INVISIBLE_ANNOTATIONS = "RuntimeInvisibleAnnotations";
     public static final String RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS = "RuntimeVisibleParameterAnnotations";
@@ -42,7 +41,7 @@ public abstract class AttributeInfo {
         int attrNameIndex = iter.nextU2ToInt();
         int attrLen = iter.nextU4ToInt();
         String attrName = clzFile.getConstantPool().getUTF8String(attrNameIndex);
-        switch (attrName){
+        switch (attrName) {
             case AttributeInfo.CODE:
                 CodeAttr codeAttr = CodeAttr.parse(clzFile, iter, attrNameIndex, attrLen);
                 return codeAttr;

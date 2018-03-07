@@ -18,11 +18,6 @@ public class LocalVariableTable extends AttributeInfo {
         super(attrNameIndex, attrLen);
     }
 
-
-    private void addLocalVariableTableItem(LocalVariableTableItem item) {
-        this.items.add(item);
-    }
-
     public static LocalVariableTable parse(ByteCodeIterator iter, int attrNameIndex, int attrLen) {
 
         LocalVariableTable table = new LocalVariableTable(attrNameIndex, attrLen);
@@ -39,6 +34,9 @@ public class LocalVariableTable extends AttributeInfo {
         return table;
     }
 
+    private void addLocalVariableTableItem(LocalVariableTableItem item) {
+        this.items.add(item);
+    }
 
     public String toString(ConstantPool pool) {
         StringBuilder buffer = new StringBuilder();

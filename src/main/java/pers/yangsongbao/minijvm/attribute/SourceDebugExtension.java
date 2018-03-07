@@ -3,7 +3,6 @@ package pers.yangsongbao.minijvm.attribute;
 import pers.yangsongbao.minijvm.loader.ByteCodeIterator;
 
 /**
- *
  * @author songbao.yang
  * @date 2018/3/4
  */

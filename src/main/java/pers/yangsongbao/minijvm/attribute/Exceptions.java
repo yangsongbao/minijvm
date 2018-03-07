@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author songbao.yang
  * @date 2018/3/4
  */
@@ -20,7 +19,7 @@ public class Exceptions extends AttributeInfo {
     public static Exceptions parse(ByteCodeIterator iter, int attrNameIndex, int attrLen) {
         Exceptions exceptions = new Exceptions(attrNameIndex, attrLen);
         int numOfExceptions = iter.nextU2ToInt();
-        for (int i = 1; i <= numOfExceptions ; i++) {
+        for (int i = 1; i <= numOfExceptions; i++) {
             int exceptionIndex = iter.nextU2ToInt();
             exceptions.addExceptionIndex(exceptionIndex);
         }

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author songbao.yang
  * @date 2018/3/4
  */
@@ -15,20 +14,20 @@ public class BootstrapMethod {
     private int numBootstrapArguments;
     private List<Integer> bootstrapArguments = new ArrayList<>();
 
-    public void addBootstrapArgument(int index) {
-        bootstrapArguments.add(index);
-    }
-
     public static BootstrapMethod parse(ByteCodeIterator iter) {
         int bootstrapMethodRef = iter.nextU2ToInt();
         int numBootstrapArguments = iter.nextU2ToInt();
         BootstrapMethod bootstrapMethod = new BootstrapMethod();
         bootstrapMethod.setBootstrapMethodRef(bootstrapMethodRef);
-        for (int i = 1; i <= numBootstrapArguments ; i++) {
+        for (int i = 1; i <= numBootstrapArguments; i++) {
             int index = iter.nextU2ToInt();
             bootstrapMethod.addBootstrapArgument(index);
         }
         return bootstrapMethod;
+    }
+
+    public void addBootstrapArgument(int index) {
+        bootstrapArguments.add(index);
     }
 
     public int getBootstrapMethodRef() {

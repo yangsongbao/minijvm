@@ -42,7 +42,7 @@ public class Field {
         return field;
     }
 
-    private void addAttribute(AttributeInfo attributeInfo){
+    private void addAttribute(AttributeInfo attributeInfo) {
         attributes.add(attributeInfo);
     }
 

@@ -5,7 +5,6 @@ import pers.yangsongbao.minijvm.constant.ConstantPool;
 import pers.yangsongbao.minijvm.print.Visitor;
 
 /**
- *
  * @author songbao.yang
  * @date 2018/3/3
  */
@@ -25,7 +24,7 @@ public class MethodHandleInfo extends ConstantInfo {
 
     @Override
     public void accept(Visitor visitor) {
-
+        visitor.visitMethodHandleInfo(this);
     }
 
     public int getReferenceKind() {

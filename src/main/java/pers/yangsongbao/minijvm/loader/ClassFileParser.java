@@ -6,7 +6,8 @@ import pers.yangsongbao.minijvm.attribute.AttributeInfo;
 import pers.yangsongbao.minijvm.clz.AccessFlag;
 import pers.yangsongbao.minijvm.clz.ClassFile;
 import pers.yangsongbao.minijvm.clz.ClassIndex;
-import pers.yangsongbao.minijvm.constant.*;
+import pers.yangsongbao.minijvm.constant.ConstantInfo;
+import pers.yangsongbao.minijvm.constant.ConstantPool;
 import pers.yangsongbao.minijvm.constant.constantInfo.*;
 import pers.yangsongbao.minijvm.field.Field;
 import pers.yangsongbao.minijvm.interfaze.Interface;
@@ -85,16 +86,22 @@ public class ClassFileParser {
                     pool.addConstantInfo(floatInfo);
                     break;
                 case ConstantInfo.LONG_INFO:
-                    byte[] longBytes = iter.getBytes(4);
+                    byte[] longBytes = iter.getBytes(8);
                     Long longValue = ByteBuffer.wrap(longBytes).order(ByteOrder.BIG_ENDIAN).getLong();
                     LongInfo longInfo = new LongInfo(pool, longValue);
                     pool.addConstantInfo(longInfo);
+                    // Long和double占据两个索引 http://hllvm.group.iteye.com/group/topic/38423#post-250484
+                    i++;
+                    pool.addConstantInfo(new NullConstantInfo());
                     break;
                 case ConstantInfo.DOUBLE_INFO:
-                    byte[] doubleBytes = iter.getBytes(4);
+                    byte[] doubleBytes = iter.getBytes(8);
                     Double doubleValue = ByteBuffer.wrap(doubleBytes).order(ByteOrder.BIG_ENDIAN).getDouble();
                     DoubleInfo doubleInfo = new DoubleInfo(pool, doubleValue);
                     pool.addConstantInfo(doubleInfo);
+                    // Long和double占据两个索引 http://hllvm.group.iteye.com/group/topic/38423#post-250484
+                    i++;
+                    pool.addConstantInfo(new NullConstantInfo());
                     break;
                 case ConstantInfo.CLASS_INFO:
                     int utf8Index = iter.nextU2ToInt();

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author songbao.yang
  * @date 2018/3/4
  */
@@ -17,10 +16,6 @@ public class BootstrapMethods extends AttributeInfo {
         super(attrNameIndex, attrLen);
     }
 
-    public void addBootstrapMethod(BootstrapMethod bootstrapMethod){
-        bootstrapMethods.add(bootstrapMethod);
-    }
-
     public static BootstrapMethods parse(ByteCodeIterator iter, int attrNameIndex, int attrLen) {
         int numBootstrapMethods = iter.nextU2ToInt();
         BootstrapMethods bootstrapMethods = new BootstrapMethods(attrNameIndex, attrLen);
@@ -29,6 +24,10 @@ public class BootstrapMethods extends AttributeInfo {
             bootstrapMethods.addBootstrapMethod(bootstrapMethod);
         }
         return bootstrapMethods;
+    }
+
+    public void addBootstrapMethod(BootstrapMethod bootstrapMethod) {
+        bootstrapMethods.add(bootstrapMethod);
     }
 
 }

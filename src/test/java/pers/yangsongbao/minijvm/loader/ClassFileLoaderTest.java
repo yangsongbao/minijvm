@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pers.yangsongbao.minijvm.clz.ClassFile;
-import pers.yangsongbao.minijvm.field.Field;
 
 /**
  * Created by songbao.yang on 2017/12/17.

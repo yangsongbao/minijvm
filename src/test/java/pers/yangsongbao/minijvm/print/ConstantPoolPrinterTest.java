@@ -7,8 +7,6 @@ import pers.yangsongbao.minijvm.clz.ClassFile;
 import pers.yangsongbao.minijvm.constant.ConstantPool;
 import pers.yangsongbao.minijvm.loader.ClassFileLoader;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by songbao.yang on 2018/3/5.
  */

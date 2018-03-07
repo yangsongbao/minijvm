@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author songbao.yang
  * @date 2018/3/4
  */
@@ -20,7 +19,7 @@ public class InnerClasses extends AttributeInfo {
     public static InnerClasses parse(ByteCodeIterator iter, int attrNameIndex, int attrLen) {
         InnerClasses innerClasses = new InnerClasses(attrNameIndex, attrLen);
         int number = iter.nextU2ToInt();
-        for (int i = 1; i <= number ; i++) {
+        for (int i = 1; i <= number; i++) {
             int innerClassInfoIndex = iter.nextU2ToInt();
             int outerClassInfoIndex = iter.nextU2ToInt();
             int innerNameIndex = iter.nextU2ToInt();

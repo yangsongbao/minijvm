@@ -6,15 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author songbao.yang
  * @date 2018/3/4
  */
 public class LocalVariableTypeTable extends AttributeInfo {
     private List<LocalVariableTypeTableItem> items = new ArrayList<>();
 
-    private void addLocalVariableTypeTableItem(LocalVariableTypeTableItem item) {
-        this.items.add(item);
+    public LocalVariableTypeTable(int attrNameIndex, int attrLen) {
+        super(attrNameIndex, attrLen);
     }
 
     public static LocalVariableTypeTable parse(ByteCodeIterator iter, int attrNameIndex, int attrLen) {
@@ -32,7 +31,8 @@ public class LocalVariableTypeTable extends AttributeInfo {
         }
         return table;
     }
-    public LocalVariableTypeTable(int attrNameIndex, int attrLen) {
-        super(attrNameIndex, attrLen);
+
+    private void addLocalVariableTypeTableItem(LocalVariableTypeTableItem item) {
+        this.items.add(item);
     }
 }

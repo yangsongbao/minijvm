@@ -15,7 +15,7 @@ public class Utf8Info extends ConstantInfo {
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.visitUtf8(this);
+        visitor.visitUtf8Info(this);
     }
 
     public int getLength() {

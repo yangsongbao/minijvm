@@ -5,7 +5,6 @@ import pers.yangsongbao.minijvm.constant.ConstantPool;
 import pers.yangsongbao.minijvm.print.Visitor;
 
 /**
- *
  * @author songbao.yang
  * @date 2018/3/3
  */
@@ -29,7 +28,7 @@ public class LongInfo extends ConstantInfo {
 
     @Override
     public void accept(Visitor visitor) {
-
+        visitor.visitLongInfo(this);
     }
 
     public float getValue() {
