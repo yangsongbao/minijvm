@@ -32,9 +32,6 @@ public class ConstantPoolPrinterTest {
 
         ConstantPoolPrinter constantPoolPrinter = new ConstantPoolPrinter(constantPool);
         constantPoolPrinter.print();
-
-        System.out.println("----------------end-----------------------");
-
     }
 
 }

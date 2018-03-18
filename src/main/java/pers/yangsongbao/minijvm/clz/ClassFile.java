@@ -26,6 +26,21 @@ public class ClassFile {
     private List<Method> methods = new ArrayList<>();
     private List<AttributeInfo> attributes = new ArrayList<>();
 
+    public Method getMethod(String methodName, String paramAndReturnType) {
+        for (Method method : methods) {
+            String name = constantPool.getUTF8String(method.getNameIndex());
+            String descriptor = constantPool.getUTF8String(method.getDescriptorIndex());
+            if (methodName.equals(name) && paramAndReturnType.equals(descriptor)){
+                return method;
+            }
+        }
+        return null;
+    }
+
+    public Method getMainMethod(){
+        return getMethod("main","([Ljava/lang/String;)V");
+    }
+
     public void addInterface(Interface anInterface) {
         interfaces.add(anInterface);
     }

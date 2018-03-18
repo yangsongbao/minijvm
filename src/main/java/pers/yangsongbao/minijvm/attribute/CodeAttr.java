@@ -1,39 +1,42 @@
 package pers.yangsongbao.minijvm.attribute;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import pers.yangsongbao.minijvm.clz.ClassFile;
 import pers.yangsongbao.minijvm.cmd.BaseByteCodeCommand;
 import pers.yangsongbao.minijvm.cmd.CommandParser;
 import pers.yangsongbao.minijvm.loader.ByteCodeIterator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author songbao.yang
  */
 public class CodeAttr extends AttributeInfo {
-    private static final Logger logger = LoggerFactory.getLogger(CodeAttr.class);
-    List<AttributeInfo> attributes = new ArrayList<>();
     private int maxStack;
     private int maxLocals;
     private int codeLen;
     private String code;
-    private BaseByteCodeCommand[] cmds;
+    private BaseByteCodeCommand[] commands;
     private List<AttrException> attrExceptions;
-//    private LineNumberTable lineNumTable;
-//    private LocalVariableTable localVarTable;
-//    private StackMapTable stackMapTable;
+    private Map<String, AttributeInfo> attributes;
 
-    public CodeAttr(int attrNameIndex, int attrLen, int maxStack, int maxLocals, int codeLen, String code, BaseByteCodeCommand[] cmds) {
+    private static final Set<String> acceptableAttribute;
+
+    static {
+        acceptableAttribute = new HashSet<>();
+        acceptableAttribute.add(AttributeInfo.LINE_NUM_TABLE);
+        acceptableAttribute.add(AttributeInfo.LOCAL_VAR_TABLE);
+        acceptableAttribute.add(AttributeInfo.STACK_MAP_TABLE);
+    }
+
+
+    private CodeAttr(int attrNameIndex, int attrLen, int maxStack, int maxLocals, int codeLen, String code, BaseByteCodeCommand[] commands) {
         super(attrNameIndex, attrLen);
         this.maxStack = maxStack;
         this.maxLocals = maxLocals;
         this.codeLen = codeLen;
         this.code = code;
-        this.cmds = cmds;
+        this.commands = commands;
         this.attrExceptions = new ArrayList<>();
     }
 
@@ -62,8 +65,16 @@ public class CodeAttr extends AttributeInfo {
 
         int subAttrCount = iter.nextU2ToInt();
         for (int i = 1; i <= subAttrCount; i++) {
-            AttributeInfo attributeInfo = AttributeInfo.parse(clzFile, iter);
-            codeAttr.addAttributes(attributeInfo);
+            int index = iter.nextU2ToInt();
+            iter.back(2);
+            String attrName = clzFile.getConstantPool().getUTF8String(index);
+            if (acceptableAttribute.contains(attrName)){
+                AttributeInfo attributeInfo = AttributeInfo.parse(clzFile, iter);
+                codeAttr.addAttributes(attrName, attributeInfo);
+            } else {
+                throw new RuntimeException("unsupported code attribute " + attrName);
+            }
+
         }
         return codeAttr;
     }
@@ -107,16 +118,16 @@ public class CodeAttr extends AttributeInfo {
         }
     }
 
-    public void addAttributes(AttributeInfo attributeInfo) {
-        attributes.add(attributeInfo);
+    public void addAttributes(String attrName, AttributeInfo attributeInfo) {
+        attributes.put(attrName, attributeInfo);
     }
 
     public String getCode() {
         return code;
     }
 
-    public BaseByteCodeCommand[] getCmds() {
-        return cmds;
+    public BaseByteCodeCommand[] getCommands() {
+        return commands;
     }
 
 }
