@@ -98,10 +98,7 @@ public class CommandParser {
                 default:
                     throw new RuntimeException("Sorry, the java instruction " + opCode + " has not been implemented");
             }
-
         }
-
-
         return null;
     }
 

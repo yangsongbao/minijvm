@@ -7,14 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 被调试器用于确定源文件中行号表示的内容在 Java 虚拟机的 code[]数组中对应的部分
+ *
  * @author songbao.yang
  */
 public class LineNumberTable extends AttributeInfo {
-    List<LineNumberItem> items = new ArrayList<LineNumberItem>();
+    private List<LineNumberItem> items = new ArrayList<>();
 
     public LineNumberTable(int attrNameIndex, int attrLen) {
         super(attrNameIndex, attrLen);
-
     }
 
     public static LineNumberTable parse(ByteCodeIterator iter, int attrNameIndex, int attrLen) {
@@ -29,7 +30,7 @@ public class LineNumberTable extends AttributeInfo {
         return table;
     }
 
-    public void addLineNumberItem(LineNumberItem item) {
+    private void addLineNumberItem(LineNumberItem item) {
         this.items.add(item);
     }
 
@@ -38,34 +39,40 @@ public class LineNumberTable extends AttributeInfo {
         StringBuilder buffer = new StringBuilder();
         buffer.append("Line Number Table:\n");
         for (LineNumberItem item : items) {
-            buffer.append("startPC:" + item.getStartPC()).append(",");
-            buffer.append("lineNum:" + item.getLineNum()).append("\n");
+            buffer.append("startPC:").append(item.getStartPC()).append(",");
+            buffer.append("lineNum:").append(item.getLineNum()).append("\n");
         }
         buffer.append("\n");
         return buffer.toString();
-
     }
 
     private static class LineNumberItem {
+        /**
+         * start_pc 项的值必须是 code[]数组的一个索引， code[]数组在该索引处的字符
+         * 表示源文件中新的行的起点。 start_pc 项的值必须小于当前 LineNumberTable
+         * 属性所在的 Code 属性的 code_length 项的值
+         */
         int startPC;
+
+        /**
+         * line_number 项的值必须与源文件的行数相匹配
+         */
         int lineNum;
 
-        public int getStartPC() {
+        int getStartPC() {
             return startPC;
         }
 
-        public void setStartPC(int startPC) {
+        void setStartPC(int startPC) {
             this.startPC = startPC;
         }
 
-        public int getLineNum() {
+        int getLineNum() {
             return lineNum;
         }
 
-        public void setLineNum(int lineNum) {
+        void setLineNum(int lineNum) {
             this.lineNum = lineNum;
         }
     }
-
-
 }

@@ -47,8 +47,21 @@
             - AnnotationDefault（未完成）
             - BootstrapMethods（完成）
         
-    2. classPath的管理
-2. 虚拟机字节码执行引擎
+    2. 链接
+        1. 验证
+        2. 准备
+        3. 解析
+            - 类与接口解析
+            - 字段解析
+            - 普通方法解析
+            - 接口方法解析
+            - 方法类型与方法句柄解析
+            - 调用点限定符解析
+        4. 初始化
+2. 字节码指令集
+
+3. 虚拟机字节码执行引擎
+
 ### 参考资料
 1. [Java虚拟机规范（JavaSE7）](https://files.cnblogs.com/files/zhuYears/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%A7%84%E8%8C%83%EF%BC%88JavaSE7%EF%BC%89.pdf)
 2. [《深入理解JAVA虚拟机》](https://book.douban.com/subject/24722612/)

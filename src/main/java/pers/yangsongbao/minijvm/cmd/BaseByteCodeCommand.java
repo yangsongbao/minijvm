@@ -110,13 +110,12 @@ public abstract class BaseByteCodeCommand {
     private ClassFile clzFile;
     private int offset;
 
-    protected BaseByteCodeCommand(ClassFile clzFile, String opCode) {
+    BaseByteCodeCommand(ClassFile clzFile, String opCode) {
         this.clzFile = clzFile;
         this.opCode = opCode;
     }
 
-
-    protected ClassFile getClassFile() {
+    private ClassFile getClassFile() {
         return clzFile;
     }
 
@@ -142,7 +141,7 @@ public abstract class BaseByteCodeCommand {
 
     public abstract int getLength();
 
-    public String getReadableCodeText() {
+    String getReadableCodeText() {
         String txt = codeMap.get(opCode);
         if (txt == null) {
             return opCode;
@@ -150,6 +149,11 @@ public abstract class BaseByteCodeCommand {
         return txt;
     }
 
+    /**
+     *  命令的执行方法，由各命令自己实现
+     * @param frame
+     * @param result
+     */
     public abstract void execute(StackFrame frame, ExecuteResult result);
 
 }

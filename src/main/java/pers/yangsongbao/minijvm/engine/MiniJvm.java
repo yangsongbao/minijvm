@@ -24,6 +24,7 @@ public class MiniJvm {
 
         className = className.replace(".", "/");
         Method mainMethod = methodArea.getMainMethod(className);
+
         executeEngine.execute(mainMethod);
     }
 }

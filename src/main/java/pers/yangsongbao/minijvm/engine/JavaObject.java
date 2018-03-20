@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Java 虚拟机规范不强制规定对象的内部结构应当如何表示
+ *
  * @author songbao.yang
  * @date 2018/3/8
  */
