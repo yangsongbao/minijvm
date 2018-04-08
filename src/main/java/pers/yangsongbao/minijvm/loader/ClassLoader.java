@@ -17,9 +17,9 @@ import java.util.List;
  * @author songbao.yang
  * @date 2017/10/14
  */
-public class ClassFileLoader {
+public class ClassLoader {
 
-    private static final Logger logger = LoggerFactory.getLogger(ClassFileLoader.class);
+    private static final Logger logger = LoggerFactory.getLogger(ClassLoader.class);
     private List<String> classPaths = new ArrayList<String>();
 
     public ClassFile loadClass(String className) {

@@ -6,19 +6,15 @@ import pers.yangsongbao.minijvm.constant.ConstantPool;
 import pers.yangsongbao.minijvm.constant.constantInfo.Utf8Info;
 import pers.yangsongbao.minijvm.loader.ByteCodeIterator;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author songbao.yang
  * @date 2017/12/17
  */
 public class Field {
-    private int accessFlag;
-    private int nameIndex;
-    private int descriptorIndex;
-    private ConstantPool constantPool;
-    private Map<String, AttributeInfo> attributes;
-
     private static final Set<String> acceptableAttribute;
 
     static {
@@ -30,6 +26,12 @@ public class Field {
         acceptableAttribute.add(AttributeInfo.RUNTIME_VISIBLE_ANNOTATIONS);
         acceptableAttribute.add(AttributeInfo.RUNTIME_INVISIBLE_ANNOTATIONS);
     }
+
+    private int accessFlag;
+    private int nameIndex;
+    private int descriptorIndex;
+    private ConstantPool constantPool;
+    private Map<String, AttributeInfo> attributes;
 
     private Field(int accessFlag, int nameIndex, int descriptorIndex, ConstantPool constantPool) {
         this.accessFlag = accessFlag;
@@ -50,7 +52,7 @@ public class Field {
             int attrNameIndex = iter.nextU2ToInt();
             iter.back(2);
             String attrName = clzFile.getConstantPool().getUTF8String(attrNameIndex);
-            if (acceptableAttribute.contains(attrName)){
+            if (acceptableAttribute.contains(attrName)) {
                 AttributeInfo attributeInfo = AttributeInfo.parse(clzFile, iter);
                 field.addAttribute(attrName, attributeInfo);
             } else {

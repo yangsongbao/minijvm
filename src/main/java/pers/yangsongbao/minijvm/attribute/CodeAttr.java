@@ -2,8 +2,8 @@ package pers.yangsongbao.minijvm.attribute;
 
 
 import pers.yangsongbao.minijvm.clz.ClassFile;
-import pers.yangsongbao.minijvm.cmd.BaseByteCodeCommand;
-import pers.yangsongbao.minijvm.cmd.CommandParser;
+import pers.yangsongbao.minijvm.command.BaseByteCodeCommand;
+import pers.yangsongbao.minijvm.command.CommandParser;
 import pers.yangsongbao.minijvm.loader.ByteCodeIterator;
 
 import java.util.*;
@@ -12,14 +12,6 @@ import java.util.*;
  * @author songbao.yang
  */
 public class CodeAttr extends AttributeInfo {
-    private int maxStack;
-    private int maxLocals;
-    private int codeLen;
-    private String code;
-    private BaseByteCodeCommand[] commands;
-    private List<AttrException> attrExceptions;
-    private Map<String, AttributeInfo> attributes;
-
     private static final Set<String> acceptableAttribute;
 
     static {
@@ -29,8 +21,16 @@ public class CodeAttr extends AttributeInfo {
         acceptableAttribute.add(AttributeInfo.STACK_MAP_TABLE);
     }
 
+    private int maxStack;
+    private int maxLocals;
+    private int codeLen;
+    private String code;
+    private List<BaseByteCodeCommand> commands;
+    private List<AttrException> attrExceptions;
+    private Map<String, AttributeInfo> attributes;
 
-    private CodeAttr(int attrNameIndex, int attrLen, int maxStack, int maxLocals, int codeLen, String code, BaseByteCodeCommand[] commands) {
+
+    private CodeAttr(int attrNameIndex, int attrLen, int maxStack, int maxLocals, int codeLen, String code, List<BaseByteCodeCommand> commands) {
         super(attrNameIndex, attrLen);
         this.maxStack = maxStack;
         this.maxLocals = maxLocals;
@@ -38,10 +38,7 @@ public class CodeAttr extends AttributeInfo {
         this.code = code;
         this.commands = commands;
         this.attrExceptions = new ArrayList<>();
-    }
-
-    public void addAttrException(AttrException attrException) {
-        attrExceptions.add(attrException);
+        this.attributes = new HashMap<>();
     }
 
     public static CodeAttr parse(ClassFile clzFile, ByteCodeIterator iter, int attrNameIndex, int attrLen) {
@@ -50,7 +47,7 @@ public class CodeAttr extends AttributeInfo {
         int codeLen = iter.nextU4ToInt();
         String code = iter.nextUxToHexString(codeLen);
 
-        BaseByteCodeCommand[] commands = CommandParser.parse(clzFile, code);
+        List<BaseByteCodeCommand> commands = CommandParser.parse(clzFile, code);
         CodeAttr codeAttr = new CodeAttr(attrNameIndex, attrLen, maxStack, maxLocals, codeLen, code, commands);
 
         int exceptionTableLen = iter.nextU2ToInt();
@@ -68,7 +65,7 @@ public class CodeAttr extends AttributeInfo {
             int index = iter.nextU2ToInt();
             iter.back(2);
             String attrName = clzFile.getConstantPool().getUTF8String(index);
-            if (acceptableAttribute.contains(attrName)){
+            if (acceptableAttribute.contains(attrName)) {
                 AttributeInfo attributeInfo = AttributeInfo.parse(clzFile, iter);
                 codeAttr.addAttributes(attrName, attributeInfo);
             } else {
@@ -77,6 +74,22 @@ public class CodeAttr extends AttributeInfo {
 
         }
         return codeAttr;
+    }
+
+    public void addAttrException(AttrException attrException) {
+        attrExceptions.add(attrException);
+    }
+
+    public void addAttributes(String attrName, AttributeInfo attributeInfo) {
+        attributes.put(attrName, attributeInfo);
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public List<BaseByteCodeCommand> getCommands() {
+        return commands;
     }
 
     private static class AttrException {
@@ -116,18 +129,6 @@ public class CodeAttr extends AttributeInfo {
         public void setCatchTypeIndex(int catchTypeIndex) {
             this.catchTypeIndex = catchTypeIndex;
         }
-    }
-
-    public void addAttributes(String attrName, AttributeInfo attributeInfo) {
-        attributes.put(attrName, attributeInfo);
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public BaseByteCodeCommand[] getCommands() {
-        return commands;
     }
 
 }

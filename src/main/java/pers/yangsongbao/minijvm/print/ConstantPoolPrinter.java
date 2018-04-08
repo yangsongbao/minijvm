@@ -21,7 +21,7 @@ public class ConstantPoolPrinter {
         System.out.println("Constant Pool:");
         for (int i = 1; i < constantPool.getSize(); i++) {
             ConstantInfo constantInfo = constantPool.getConstantInfo(i);
-            if (constantInfo instanceof NullConstantInfo){
+            if (constantInfo instanceof NullConstantInfo) {
                 continue;
             }
             System.out.print("#" + i + "=");

@@ -1,4 +1,4 @@
-package pers.yangsongbao.minijvm.cmd;
+package pers.yangsongbao.minijvm.command;
 
 
 import pers.yangsongbao.minijvm.clz.ClassFile;
@@ -19,6 +19,11 @@ public abstract class BaseByteCodeCommand {
     public static final String aconst_null = "01";
     public static final String iconst_0 = "03";
     public static final String iconst_1 = "04";
+    public static final String iconst_4 = "07";
+
+    public static final String fconst_2 = "0D";
+
+
     public static final String bipush = "10";
     public static final String ldc = "12";
     public static final String iload = "15";
@@ -26,6 +31,7 @@ public abstract class BaseByteCodeCommand {
     public static final String iload_2 = "1C";
     public static final String iload_3 = "1D";
 
+    public static final String fload_2 = "24";
     public static final String fload_3 = "25";
     public static final String aload_0 = "2A";
     public static final String aload_1 = "2B";
@@ -49,6 +55,7 @@ public abstract class BaseByteCodeCommand {
     public static final String ireturn = "AC";
     public static final String freturn = "AE";
 
+    public static final String areturn = "B0";
     public static final String voidreturn = "B1";
     public static final String getstatic = "B2";
     public static final String getfield = "B4";
@@ -150,7 +157,8 @@ public abstract class BaseByteCodeCommand {
     }
 
     /**
-     *  命令的执行方法，由各命令自己实现
+     * 命令的执行方法，由各命令自己实现
+     *
      * @param frame
      * @param result
      */

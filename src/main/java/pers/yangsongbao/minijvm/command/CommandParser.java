@@ -1,4 +1,4 @@
-package pers.yangsongbao.minijvm.cmd;
+package pers.yangsongbao.minijvm.command;
 
 
 import pers.yangsongbao.minijvm.clz.ClassFile;
@@ -11,21 +11,26 @@ import java.util.List;
  */
 public class CommandParser {
 
-    public static BaseByteCodeCommand[] parse(ClassFile clzFile, String codes) {
+    public static List<BaseByteCodeCommand> parse(ClassFile clzFile, String codes) {
         if ((codes == null) || (codes.length() == 0) || (codes.length() % 2) != 0) {
             throw new RuntimeException("the orignal code is not correct");
         }
 
         List<BaseByteCodeCommand> commands = new ArrayList<>();
         CommandIterator iter = new CommandIterator(codes);
-        while (iter.hasNext()){
-            String opCode = iter.next2CharAsString();
+        while (iter.hasNext()) {
+            String opCode = iter.next2CharAsString().toUpperCase();
             switch (opCode) {
-                case BaseByteCodeCommand.new_object :
+                case BaseByteCodeCommand.new_object:
                     NewObjectCmd newObjectCmd = new NewObjectCmd(clzFile, opCode);
                     newObjectCmd.setOprand1(iter.next2CharAsInt());
                     newObjectCmd.setOprand2(iter.next2CharAsInt());
                     commands.add(newObjectCmd);
+                    break;
+                case BaseByteCodeCommand.ldc:
+                    LdcCommand ldcCommand = new LdcCommand(clzFile, opCode);
+                    ldcCommand.setOperand(iter.next2CharAsInt());
+                    commands.add(ldcCommand);
                     break;
                 case BaseByteCodeCommand.invokespecial:
                     InvokeSpecialCmd invokeSpecialCmd = new InvokeSpecialCmd(clzFile, opCode);
@@ -60,7 +65,7 @@ public class CommandParser {
                 case BaseByteCodeCommand.if_icmp_ge:
                 case BaseByteCodeCommand.if_icmple:
                 case BaseByteCodeCommand.goto_no_condition:
-                    ComparisonCmd cmd = new ComparisonCmd(clzFile,opCode);
+                    ComparisonCmd cmd = new ComparisonCmd(clzFile, opCode);
                     cmd.setOprand1(iter.next2CharAsInt());
                     cmd.setOprand2(iter.next2CharAsInt());
                     commands.add(cmd);
@@ -71,7 +76,7 @@ public class CommandParser {
                     commands.add(biPushCmd);
                     break;
                 case BaseByteCodeCommand.iinc:
-                    IncrementCmd incrementCmd = new IncrementCmd(clzFile,opCode);
+                    IncrementCmd incrementCmd = new IncrementCmd(clzFile, opCode);
                     incrementCmd.setOprand1(iter.next2CharAsInt());
                     incrementCmd.setOprand2(iter.next2CharAsInt());
                     commands.add(incrementCmd);
@@ -83,11 +88,15 @@ public class CommandParser {
                 case BaseByteCodeCommand.iload_1:
                 case BaseByteCodeCommand.iload_2:
                 case BaseByteCodeCommand.iload_3:
+                case BaseByteCodeCommand.fload_2:
                 case BaseByteCodeCommand.fload_3:
                 case BaseByteCodeCommand.iconst_0:
                 case BaseByteCodeCommand.iconst_1:
+                case BaseByteCodeCommand.iconst_4:
+                case BaseByteCodeCommand.fconst_2:
                 case BaseByteCodeCommand.istore_1:
                 case BaseByteCodeCommand.istore_2:
+                case BaseByteCodeCommand.areturn:
                 case BaseByteCodeCommand.voidreturn:
                 case BaseByteCodeCommand.iadd:
                 case BaseByteCodeCommand.astore_1:
@@ -99,12 +108,13 @@ public class CommandParser {
                     throw new RuntimeException("Sorry, the java instruction " + opCode + " has not been implemented");
             }
         }
-        return null;
+        return commands;
     }
 
     private static class CommandIterator {
         String codes = null;
         int pos = 0;
+
         CommandIterator(String codes) {
             this.codes = codes;
         }

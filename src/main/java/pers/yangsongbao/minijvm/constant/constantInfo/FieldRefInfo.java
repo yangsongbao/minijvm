@@ -39,20 +39,14 @@ public class FieldRefInfo extends ConstantInfo {
 
     @Override
     public String toString() {
-
         NameAndTypeInfo typeInfo = (NameAndTypeInfo) this.getConstantInfo(this.getNameAndTypeIndex());
-
         return getClassName() + " : " + typeInfo.getName() + ":" + typeInfo.getTypeInfo() + "]";
     }
 
     public String getClassName() {
-
         ClassInfo classInfo = (ClassInfo) this.getConstantInfo(this.getClassInfoIndex());
-
         Utf8Info utf8Info = (Utf8Info) this.getConstantInfo(classInfo.getUtf8Index());
-
         return utf8Info.getValue();
-
     }
 
     public String getFieldName() {

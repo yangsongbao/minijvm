@@ -60,7 +60,7 @@
         4. 初始化
 2. 字节码指令集
 
-3. 虚拟机字节码执行引擎
+3. 虚拟机字节码执行引擎（简版完成）
 
 ### 参考资料
 1. [Java虚拟机规范（JavaSE7）](https://files.cnblogs.com/files/zhuYears/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%A7%84%E8%8C%83%EF%BC%88JavaSE7%EF%BC%89.pdf)

@@ -1,7 +1,8 @@
 package pers.yangsongbao.minijvm.engine;
 
 import pers.yangsongbao.minijvm.clz.ClassFile;
-import pers.yangsongbao.minijvm.loader.ClassFileLoader;
+import pers.yangsongbao.minijvm.constant.constantInfo.MethodRefInfo;
+import pers.yangsongbao.minijvm.loader.ClassLoader;
 import pers.yangsongbao.minijvm.method.Method;
 
 import java.util.HashMap;
@@ -16,46 +17,58 @@ import java.util.Map;
  * @date 2018/3/8
  */
 public class MethodArea {
-    private ClassFileLoader clzLoader = null;
+    private ClassLoader classLoader = null;
     private Map<String, ClassFile> loadedClasses;
+
+    /**
+     * 运行时常量池，未实现
+     */
 
     private MethodArea() {
         loadedClasses = new HashMap<>();
     }
 
-    Method getMainMethod(String className) throws ClassNotFoundException {
+    public static MethodArea getInstance() {
+        return MethodAreaHolder.INSTANCE;
+    }
+
+    Method getMainMethod(String className) {
         ClassFile classFile = findClassFile(className);
         return classFile.getMainMethod();
     }
 
-    private ClassFile findClassFile(String className) throws ClassNotFoundException {
+    public ClassFile findClassFile(String className) {
         ClassFile loadedClass = loadedClasses.get(className);
-        if (loadedClass != null){
+        if (loadedClass != null) {
             return loadedClass;
         }
 
-        ClassFile classFile = clzLoader.loadClass(className);
-        if (classFile == null){
-            throw new ClassNotFoundException(className);
+        ClassFile classFile = classLoader.loadClass(className);
+        if (classFile == null) {
+            throw new RuntimeException("do not find class: " + className);
         }
         loadedClasses.put(className, classFile);
         return classFile;
     }
 
+    public Method getMethod(MethodRefInfo methodRef) {
+        ClassFile classFile = this.findClassFile(methodRef.getClassName());
+        Method m = classFile.getMethod(methodRef.getMethodName(), methodRef.getParamAndReturnType());
+        if (m == null) {
+            throw new RuntimeException("method can't be found : " + methodRef.toString());
+        }
+        return m;
+    }
 
-    static MethodArea getInstance(){
-        return MethodAreaHolder.INSTANCE;
+    public ClassLoader getClassLoader() {
+        return classLoader;
+    }
+
+    public void setClassLoader(ClassLoader classLoader) {
+        this.classLoader = classLoader;
     }
 
     private static class MethodAreaHolder {
         private static final MethodArea INSTANCE = new MethodArea();
-    }
-
-    public ClassFileLoader getClzLoader() {
-        return clzLoader;
-    }
-
-    public void setClzLoader(ClassFileLoader clzLoader) {
-        this.clzLoader = clzLoader;
     }
 }

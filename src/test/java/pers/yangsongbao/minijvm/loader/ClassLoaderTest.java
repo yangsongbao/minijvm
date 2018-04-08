@@ -9,13 +9,13 @@ import pers.yangsongbao.minijvm.clz.ClassFile;
 /**
  * Created by songbao.yang on 2017/12/17.
  */
-public class ClassFileLoaderTest {
+public class ClassLoaderTest {
 
-    private ClassFileLoader classFileLoader;
+    private ClassLoader classLoader;
 
     @Before
     public void setUp() throws Exception {
-        classFileLoader = new ClassFileLoader();
+        classLoader = new ClassLoader();
     }
 
     @After
@@ -26,9 +26,9 @@ public class ClassFileLoaderTest {
     @Test
     public void loadClass() throws Exception {
         String classPath = "D:\\project\\Learn\\minijvm\\target\\classes";
-        classFileLoader.addClassPath(classPath);
+        classLoader.addClassPath(classPath);
         String className = "pers.yangsongbao.minijvm.test.Plane";
-        ClassFile classFile = classFileLoader.loadClass(className);
+        ClassFile classFile = classLoader.loadClass(className);
 
         //bytecode version jdk1.7
         Assert.assertTrue(classFile.getMinorVersion() == 0);

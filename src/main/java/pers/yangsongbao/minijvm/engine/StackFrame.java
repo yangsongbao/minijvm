@@ -1,6 +1,6 @@
 package pers.yangsongbao.minijvm.engine;
 
-import pers.yangsongbao.minijvm.cmd.BaseByteCodeCommand;
+import pers.yangsongbao.minijvm.command.BaseByteCodeCommand;
 import pers.yangsongbao.minijvm.method.Method;
 
 import java.util.ArrayList;
@@ -9,10 +9,10 @@ import java.util.Stack;
 
 /**
  * 栈帧（Frame）是用来存储数据和部分过程结果的数据结构，同时也被用来处理动态链接
- *（Dynamic Linking）、方法返回值和异常分派（Dispatch Exception）
- *
+ * （Dynamic Linking）、方法返回值和异常分派（Dispatch Exception）
+ * <p>
  * 栈帧随着方法调用而创建，随着方法结束而销毁——无论方法是正常完成还是异常完成（抛出
- *了在方法内未被捕获的异常）都算作方法结束
+ * 了在方法内未被捕获的异常）都算作方法结束
  *
  * @author songbao.yang
  * @date 2018/3/8
@@ -41,17 +41,17 @@ public class StackFrame {
         this.method = method;
     }
 
-    static StackFrame create(Method method){
+    static StackFrame create(Method method) {
         return new StackFrame(method);
     }
 
-    public ExecuteResult execute(){
-        BaseByteCodeCommand[] commands = method.getCodeAttr().getCommands();
-        while (index < commands.length) {
+    public ExecuteResult execute() {
+        System.out.println("-----start execute method : " + method.getMethodName());
+        List<BaseByteCodeCommand> commands = method.getCodeAttr().getCommands();
+        while (index < commands.size()) {
             ExecuteResult executeResult = new ExecuteResult();
             executeResult.setNextAction(ExecuteResult.RUN_NEXT_CMD);
-
-            BaseByteCodeCommand command = commands[index];
+            BaseByteCodeCommand command = commands.get(index);
             System.out.println("execute command : " + command.toString());
             command.execute(this, executeResult);
             switch (executeResult.getNextAction()) {
@@ -68,7 +68,7 @@ public class StackFrame {
                     index++;
                     return executeResult;
                 default:
-                    System.out.println("no, it is impossible !!");
+                    index++;
             }
         }
         //当前StackFrmae的指令全部执行完毕，可以退出了
@@ -77,17 +77,28 @@ public class StackFrame {
         return executeResult;
     }
 
+    public JavaObject getLocalVariableValue(int index) {
+        return this.localVariableTable.get(index);
+    }
+
+    public void setLocalVariableValue(int index, JavaObject value) {
+        if (this.localVariableTable.size() - 1 < index) {
+            for (int i = this.localVariableTable.size(); i <= index; i++) {
+                this.localVariableTable.add(null);
+            }
+        }
+        this.localVariableTable.set(index, value);
+    }
 
     private int getNextCommandIndex(int offset) {
-        BaseByteCodeCommand[] commands = method.getCodeAttr().getCommands();
-        for (int i = 0; i < commands.length; i++) {
-            if (commands[i].getOffset() == offset) {
+        List<BaseByteCodeCommand> commands = method.getCodeAttr().getCommands();
+        for (int i = 0; i < commands.size(); i++) {
+            if (commands.get(i).getOffset() == offset) {
                 return i;
             }
         }
         throw new RuntimeException("Can't find next command");
     }
-
 
     public StackFrame getCallerFrame() {
         return callerFrame;

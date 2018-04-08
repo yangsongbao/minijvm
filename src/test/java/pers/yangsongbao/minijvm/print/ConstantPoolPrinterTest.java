@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pers.yangsongbao.minijvm.clz.ClassFile;
 import pers.yangsongbao.minijvm.constant.ConstantPool;
-import pers.yangsongbao.minijvm.loader.ClassFileLoader;
+import pers.yangsongbao.minijvm.loader.ClassLoader;
 
 /**
  * Created by songbao.yang on 2018/3/5.
@@ -23,11 +23,11 @@ public class ConstantPoolPrinterTest {
 
     @Test
     public void print() throws Exception {
-        ClassFileLoader classFileLoader = new ClassFileLoader();
+        ClassLoader classLoader = new ClassLoader();
         String classPath = "D:\\project\\Learn\\minijvm\\target\\classes";
-        classFileLoader.addClassPath(classPath);
+        classLoader.addClassPath(classPath);
         String className = "pers.yangsongbao.minijvm.test.Plane";
-        ClassFile classFile = classFileLoader.loadClass(className);
+        ClassFile classFile = classLoader.loadClass(className);
         ConstantPool constantPool = classFile.getConstantPool();
 
         ConstantPoolPrinter constantPoolPrinter = new ConstantPoolPrinter(constantPool);

@@ -2,6 +2,7 @@ package pers.yangsongbao.minijvm.clz;
 
 import pers.yangsongbao.minijvm.attribute.AttributeInfo;
 import pers.yangsongbao.minijvm.constant.ConstantPool;
+import pers.yangsongbao.minijvm.constant.constantInfo.ClassInfo;
 import pers.yangsongbao.minijvm.field.Field;
 import pers.yangsongbao.minijvm.interfaze.Interface;
 import pers.yangsongbao.minijvm.method.Method;
@@ -30,15 +31,26 @@ public class ClassFile {
         for (Method method : methods) {
             String name = constantPool.getUTF8String(method.getNameIndex());
             String descriptor = constantPool.getUTF8String(method.getDescriptorIndex());
-            if (methodName.equals(name) && paramAndReturnType.equals(descriptor)){
+            if (methodName.equals(name) && paramAndReturnType.equals(descriptor)) {
                 return method;
             }
         }
         return null;
     }
 
-    public Method getMainMethod(){
-        return getMethod("main","([Ljava/lang/String;)V");
+    public String getClassName() {
+        int thisClassIndex = this.classIndex.getThisClassIndex();
+        ClassInfo thisClass = (ClassInfo) this.getConstantPool().getConstantInfo(thisClassIndex);
+        return thisClass.getClassName();
+    }
+
+    public String getSuperClassName() {
+        ClassInfo superClass = (ClassInfo) this.getConstantPool().getConstantInfo(this.classIndex.getSuperClassIndex());
+        return superClass.getClassName();
+    }
+
+    public Method getMainMethod() {
+        return getMethod("main", "([Ljava/lang/String;)V");
     }
 
     public void addInterface(Interface anInterface) {

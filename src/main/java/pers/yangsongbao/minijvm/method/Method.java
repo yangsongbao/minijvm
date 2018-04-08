@@ -14,12 +14,6 @@ import java.util.*;
  */
 public class Method {
 
-    private int accessFlag;
-    private int nameIndex;
-    private int descriptorIndex;
-    private ClassFile clzFile;
-    private Map<String, AttributeInfo> attributes;
-
     private static final Set<String> acceptableAttribute;
 
     static {
@@ -35,6 +29,12 @@ public class Method {
         acceptableAttribute.add(AttributeInfo.RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS);
         acceptableAttribute.add(AttributeInfo.ANNOTATION_DEFAULT);
     }
+
+    private int accessFlag;
+    private int nameIndex;
+    private int descriptorIndex;
+    private ClassFile clzFile;
+    private Map<String, AttributeInfo> attributes;
 
     private Method(ClassFile clzFile, int accessFlag, int nameIndex, int descriptorIndex) {
         this.clzFile = clzFile;
@@ -74,6 +74,10 @@ public class Method {
         return (CodeAttr) attributes.get(AttributeInfo.CODE);
     }
 
+    public String getMethodName() {
+        return getClzFile().getConstantPool().getUTF8String(nameIndex);
+    }
+
     private String getParamAndReturnType() {
         Utf8Info nameAndTypeInfo = (Utf8Info) this.getClzFile()
                 .getConstantPool().getConstantInfo(this.getDescriptorIndex());
@@ -92,10 +96,12 @@ public class Method {
         List<String> paramList = new ArrayList<>();
         List<String> params = Splitter.on(";").splitToList(param);
         for (String paramItem : params) {
-            int pos = 0;
-            char charAtPos = paramItem.charAt(pos);
+            if (paramItem.equals("")) {
+                continue;
+            }
+            char charAtPos = paramItem.charAt(0);
             if (charAtPos == 'L') {
-                paramList.add(paramItem.substring(charAtPos + 1));
+                paramList.add(paramItem.substring(1));
             } else {
                 List<String> chars = Splitter.on("").splitToList(paramItem);
                 paramList.addAll(chars);

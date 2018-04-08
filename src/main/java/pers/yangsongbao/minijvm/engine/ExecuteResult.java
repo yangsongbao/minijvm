@@ -3,7 +3,6 @@ package pers.yangsongbao.minijvm.engine;
 import pers.yangsongbao.minijvm.method.Method;
 
 /**
- *
  * @author songbao.yang
  * @date 2018/3/8
  */
@@ -17,18 +16,19 @@ public class ExecuteResult {
     private Method nextMethod;
 
 
-    public boolean isPauseAndRunNewFrame(){
+    public boolean isPauseAndRunNewFrame() {
         return this.nextAction == PAUSE_AND_RUN_NEW_FRAME;
     }
-    public boolean isExitCurrentFrame(){
+
+    public boolean isExitCurrentFrame() {
         return this.nextAction == EXIT_CURRENT_FRAME;
     }
 
-    public boolean isRunNextCmd(){
+    public boolean isRunNextCmd() {
         return this.nextAction == RUN_NEXT_CMD;
     }
 
-    public boolean isJump(){
+    public boolean isJump() {
         return this.nextAction == JUMP;
     }
 
