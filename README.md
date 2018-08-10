@@ -65,3 +65,6 @@
 ### 参考资料
 1. [Java虚拟机规范（JavaSE7）](https://files.cnblogs.com/files/zhuYears/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%A7%84%E8%8C%83%EF%BC%88JavaSE7%EF%BC%89.pdf)
 2. [《深入理解JAVA虚拟机》](https://book.douban.com/subject/24722612/)
+
+### 总结文档
+1. [.class文件里都有些什么？](http://note.youdao.com/noteshare?id=e01b2975e187e8e8c5f7565a26938a85&sub=FE067BC677D6456AAE7111C69615555C)
