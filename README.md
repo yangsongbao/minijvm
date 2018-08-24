@@ -68,3 +68,4 @@
 
 ### 总结文档
 1. [.class文件里都有些什么？](http://note.youdao.com/noteshare?id=e01b2975e187e8e8c5f7565a26938a85&sub=FE067BC677D6456AAE7111C69615555C)
+2. [字节码是如何被JVM执行的？](https://note.youdao.com/share/?id=26efa6e847638684e259dd2a9ba25051&type=note#/)
